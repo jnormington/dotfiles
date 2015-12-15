@@ -17,7 +17,7 @@ file_linkers = [
   Symlinker.new('ssh_config',   "#{dotfile_path}/ssh/config",           '~/.ssh'),
   Symlinker.new('git_config',   "#{dotfile_path}/git/gitconfig",        '~/', '.gitconfig'),
   Symlinker.new('git_ignore',   "#{dotfile_path}/git/gitignore_global", '~/', '.gitignore_global'),
-  Symlinker.new('bash_rc',      "#{dotfile_path}/bash/bash_rc",         '~/', '.bash_rc'),
+  Symlinker.new('bash_rc',      "#{dotfile_path}/bash/bashrc",          '~/', '.bashrc'),
   Symlinker.new('bash_alias',   "#{dotfile_path}/bash/bash_aliases",    '~/', '.bash_aliases'),
   Symlinker.new('bash_profile', "#{dotfile_path}/bash/bash_profile",    '~/', '.bash_profile'),
   Symlinker.new('sublimeText'   "#{dotfile_path}/sublime/user_config",
