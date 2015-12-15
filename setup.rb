@@ -7,20 +7,20 @@ dotfile_path = ENV['DOTFILES_PATH'] ||= "~/.dotfiles"
 # version make it a management overhead.
 
 # Brew installation
-`ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"`
+system("ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"")
 
 # Brew backed apps
-`brew install wget git qpdf`
+system("brew install wget git qpdf")
 
 #Symlink them all
 file_linkers = [
-  Symlinker.new('ssh_config',   '#{dotfile_path}/ssh/config',           '~/.ssh'),
-  Symlinker.new('git_config',   '#{dotfile_path}/git/gitconfig',        '~/', '.gitconfig'),
-  Symlinker.new('git_ignore',   '#{dotfile_path}/git/gitignore_global', '~/', '.gitignore_global'),
-  Symlinker.new('bash_rc',      '#{dotfile_path}/bash/bash_rc',         '~/', '.bash_rc'),
-  Symlinker.new('bash_alias',   '#{dotfile_path}/bash/bash_aliases',    '~/', '.bash_aliases'),
-  Symlinker.new('bash_profile', '#{dotfile_path}/bash/bash_profile',    '~/', '.bash_profile'),
-  Symlinker.new('sublimeText'   '#{dotfile_path}/sublime/user_config',
+  Symlinker.new('ssh_config',   "#{dotfile_path}/ssh/config",           '~/.ssh'),
+  Symlinker.new('git_config',   "#{dotfile_path}/git/gitconfig",        '~/', '.gitconfig'),
+  Symlinker.new('git_ignore',   "#{dotfile_path}/git/gitignore_global", '~/', '.gitignore_global'),
+  Symlinker.new('bash_rc',      "#{dotfile_path}/bash/bash_rc",         '~/', '.bash_rc'),
+  Symlinker.new('bash_alias',   "#{dotfile_path}/bash/bash_aliases",    '~/', '.bash_aliases'),
+  Symlinker.new('bash_profile', "#{dotfile_path}/bash/bash_profile",    '~/', '.bash_profile'),
+  Symlinker.new('sublimeText'   "#{dotfile_path}/sublime/user_config",
                 '/Library/Application Support/Sublime Text 3/Packages/User',
                 'Preferences.sublime-settings')
 ]
