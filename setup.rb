@@ -7,10 +7,10 @@ dotfile_path = ENV['DOTFILES_PATH'] ||= "~/.dotfiles"
 # version make it a management overhead.
 
 # Brew installation
-`ruby -e '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)'`
+`ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"`
 
 # Brew backed apps
-`brew install wget git qpdf vagrant`
+`brew install wget git qpdf`
 
 #Symlink them all
 file_linkers = [
