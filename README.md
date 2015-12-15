@@ -23,7 +23,7 @@ curl -Lo $DOWNLOAD_PATH https://bitbucket.org/jnormington/package_mate/get/maste
 unzip -e $DOWNLOAD_PATH -d $EXTRACT_ROOT
 
 cd $EXTRACT_ROOT/jnormington-package_mate-*
-mv ./dotfiles/**/* $DOTFILE_PATH/
+mv ./dotfiles/* $DOTFILE_PATH/
 ruby ./setup.rb
 
 ```
