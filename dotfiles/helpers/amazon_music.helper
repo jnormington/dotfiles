@@ -1,0 +1,11 @@
+alias prev='tell_amazon_music "Previous"'
+alias next='tell_amazon_music "Next"'
+alias pause='tell_amazon_music "Play"'
+alias play='tell_amazon_music "Play"'
+
+tell_amazon_music () {
+  osascript -e "
+  tell application \"System Events\" to tell process \"Amazon Music\"
+    click menu item \"$1\" of menu 1 of menu bar item \"Playback\" of menu bar 1
+  end tell" &>/dev/null
+}
