@@ -1,0 +1,16 @@
+alias hm="cd ~"
+alias cdr="cd ~/Repository"
+alias ..="cd .."
+alias ...="cd ../.."
+alias -- -="cd -"
+
+alias hist="history"
+alias ls="ls -ltGF"
+
+alias traceit="sudo dtrace -p"
+
+# Don't clear the screen init
+alias less="less -X"
+
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec $SHELL -l"
