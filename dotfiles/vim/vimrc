@@ -1,0 +1,77 @@
+set nocompatible
+filetype off
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Define bundles via Github repos
+
+Bundle 'rking/ag.vim'
+Bundle 'kien/ctrlp.vim'
+Bundle "skwp/greplace.vim"
+Bundle "MarcWeber/vim-addon-mw-utils"
+Bundle "dkprice/vim-easygrep"
+Bundle 'airblade/vim-gitgutter'
+Bundle 'sjl/vitality.vim'
+
+Bundle 'tpope/vim-bundler'
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-fugitive'
+Bundle "tpope/vim-haml"
+Bundle "tpope/vim-rails"
+
+Bundle 'pangloss/vim-javascript'
+Bundle 'fatih/vim-go'
+Bundle "vim-ruby/vim-ruby"
+
+Bundle 'vim-scripts/tComment'
+Bundle 'scrooloose/nerdtree'
+Bundle "scrooloose/syntastic"
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+
+set tabstop=2
+set expandtab
+set shiftwidth=2
+set autoindent
+set smartindent
+set nobackup
+set nowritebackup
+set noswapfile
+
+set ruler
+set textwidth=100
+set colorcolumn=+1
+
+set number
+set numberwidth=5
+
+set splitbelow
+set splitright
+
+syntax on
+
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+inoremap jk <esc>
+
+augroup BgHighlight
+  autocmd!
+  autocmd WinEnter * set colorcolumn=100
+  autocmd WinLeave * set colorcolumn=0
+augroup END
+
+autocmd BufWritePre *.rb :%s/\s\+$//e

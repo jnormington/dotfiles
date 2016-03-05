@@ -10,7 +10,10 @@ dotfile_path = ENV['DOTFILES_PATH'] ||= "~/.dotfiles"
 system("ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"")
 
 # Brew backed apps
-system("brew install wget git qpdf")
+system("brew install wget git qpdf vim")
+
+# Clone Vundle
+system('git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim')
 
 #Symlink them all
 file_linkers = [
@@ -20,9 +23,7 @@ file_linkers = [
   Symlinker.new('bash_rc',      "#{dotfile_path}/bash/bashrc",          '~/', '.bashrc'),
   Symlinker.new('bash_alias',   "#{dotfile_path}/bash/bash_aliases",    '~/', '.bash_aliases'),
   Symlinker.new('bash_profile', "#{dotfile_path}/bash/bash_profile",    '~/', '.bash_profile'),
-  Symlinker.new('sublimeText',  "#{dotfile_path}/sublime/user_config",
-                '/Library/Application Support/Sublime Text 3/Packages/User',
-                'Preferences.sublime-settings')
+  Symlinker.new('vimrc',        "#{dotfile_path}/vim/vimrc",            '~/', '.vimrc')
 ]
 
 #Required Software
@@ -31,7 +32,6 @@ Software.new({name: 'Firefox',        transition: 'dmg>app', url: 'https://downl
 Software.new({name: 'MacDown',        transition: 'zip>app', url: 'http://macdown.uranusjr.com/download/latest/'})
 Software.new({name: 'Dash',           transition: 'zip>app', url: 'https://london.kapeli.com/downloads/v3/Dash.zip'})
 Software.new({name: 'Chrome Browser', transition: 'dmg>app', url: 'https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg'})
-Software.new({name: 'SublimeText3',   transition: 'dmg>app', url: 'http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%20Build%203083.dmg'})
 Software.new({name: 'VLC Player',     transition: 'dmg>app', url: 'http://www.mirrorservice.org/sites/videolan.org/vlc/2.2.1/macosx/vlc-2.2.1.dmg'})
 Software.new({name: 'Amazon Music',   transition: 'dmg>app', url: 'https://images-na.ssl-images-amazon.com/images/G/01/digital/music/morpho/installers/20151118/201234b234/AmazonMusicInstaller.dmg'})
 Software.new({name: 'VirtualBox',     transition: 'dmg>pkg', url: 'http://download.virtualbox.org/virtualbox/5.0.10/VirtualBox-5.0.10-104061-OSX.dmg'})
@@ -49,4 +49,5 @@ collection.print_status(:install_status)
 
 file_linkers.each {|symlinker| symlinker.symlink_it }
 
+puts "Don't forget to run :PluginInstall in vim"
 
