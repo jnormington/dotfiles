@@ -19,13 +19,12 @@ DOWNLOAD_PATH=~/Downloads/package_mate.zip
 EXTRACT_ROOT=~/Documents/
 
 mkdir -p $DOTFILE_PATH
-curl -Lo $DOWNLOAD_PATH https://bitbucket.org/jnormington/package_mate/get/master.zip
+curl -Lo $DOWNLOAD_PATH https://github.com/jnormington/package-mate/archive/master.zip
 unzip -e $DOWNLOAD_PATH -d $EXTRACT_ROOT
 
-cd $EXTRACT_ROOT/jnormington-package_mate-*
+cd $EXTRACT_ROOT/package_mate-*
 mv ./dotfiles/* $DOTFILE_PATH/
 ruby ./setup.rb
-
 ```
 
 ## What should happen
