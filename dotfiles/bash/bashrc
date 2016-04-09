@@ -21,3 +21,15 @@ alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+
+# Print git information branch, unstaged and uncommitted files
+function bashPrompt() {
+  export PS1="\[\e[0;30m\][\e[0;32m\] \u~\h \[\e[0;30m\]]─[\[\e[0;34m\] ${PWD} \[\e[0;30m\]]─[\
+ \[\e[0;37m\] $(git rev-parse --abbrev-ref HEAD 2>/dev/null) \[\e[0;30m\]]-[\[\e[0;36m\]\
+ $(git status --porcelain 2>/dev/null| grep "^ M" | wc -l | tr -d '[[:space:]]')\
+ uncommited changes \[\e[0;30m\]]-[\[\e[0;36m\] $(git ls-files --exclude-standard\
+ --others 2>/dev/null | wc -l | tr -d '[[:space:]]') untracked files\
+ \[\e[0;30m\]]\[\e[0;30m\]\e[0m\n>>> "
+}
+
+PROMPT_COMMAND=bashPrompt
