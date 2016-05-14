@@ -1,0 +1,58 @@
+#!/bin/bash
+
+DOTFILES_REPO="https://github.com/jnormington/package-mate/archive/master.zip"
+DOWNLOAD_PATH=$HOME/Downloads
+DOTFILES_STORE=$HOME/.dotfiles
+HOMEBREW_APPS=(
+  Caskroom/cask/disablemonitor
+  Caskroom/cask/enpass
+  Caskroom/cask/firefox
+  Caskroom/cask/google-chrome
+  Caskroom/cask/google-drive
+  Caskroom/cask/iterm2
+  Caskroom/cask/vagrant
+  Caskroom/cask/virtualbox
+  Caskroom/cask/virtualbox-extension-pack
+  Caskroom/cask/vlc
+  Caskroom/cask/spectacle
+  curl
+  git
+  jmeter
+  perceptualdiff
+  qpdf
+  vim
+  wget
+)
+
+if [[ $(uname) -eq "Darwin" ]]; then
+  # Install homebrew
+  echo "Install homebrew"
+  ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"
+  # Install all the apps with homebrew
+  echo "Installing apps with homebrew"
+  brew install ${HOMEBREW_APPS[@]} --force
+else
+  # Assume debian based os for now
+  sudo add-apt-repository ppa:git-core/ppa -y
+  sudo apt-get update
+  apt-get install git curl wget vim unzip
+fi
+
+# Install Vundle for vim
+echo "Install Vundle"
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+echo "Install dotfiles"
+curl -Lo $DOWNLOAD_PATH/repo $DOTFILES_REPO
+unzip -e $DOWNLOAD_PATH/repo -d $DOWNLOAD_PATH
+mv $DOWNLOAD_PATH/package-mate-*/dotfiles $DOTFILES_STORE
+
+# Move the files/directories in dotfiles into position
+echo "Preparing Dotfiles"
+for conf in $(ls $HOME/.dotfiles)
+do
+  dest=$HOME/.$conf
+    echo "Linked: $dest"
+    ln -sf $HOME/.dotfiles/$conf $dest
+done
+
+echo "Don't forget to run :PluginInstall in vim"
