@@ -1,1 +1,0 @@
-for f in ~/.dotfiles/helpers/*.helper; do source $f; done
