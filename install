@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DOTFILES_REPO="https://github.com/jnormington/package-mate/archive/master.zip"
+DOTFILES_REPO="https://github.com/jnormington/dotfiles/archive/master.zip"
 DOWNLOAD_PATH=$HOME/Downloads
-DOTFILES_STORE=$HOME/.dotfiles
+DOTFILES=$HOME/.dotfiles
 HOMEBREW_APPS=(
   Caskroom/cask/disablemonitor
   Caskroom/cask/enpass
@@ -41,18 +41,26 @@ fi
 # Install Vundle for vim
 echo "Install Vundle"
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
 echo "Install dotfiles"
 curl -Lo $DOWNLOAD_PATH/repo $DOTFILES_REPO
 unzip -e $DOWNLOAD_PATH/repo -d $DOWNLOAD_PATH
-mv $DOWNLOAD_PATH/package-mate-*/dotfiles $DOTFILES_STORE
+mv $DOWNLOAD_PATH/dotfiles-*/dotfiles/* $DOTFILES
 
 # Move the files/directories in dotfiles into position
-echo "Preparing Dotfiles"
 for conf in $(ls $HOME/.dotfiles)
 do
-  dest=$HOME/.$conf
-    echo "Linked: $dest"
-    ln -sf $HOME/.dotfiles/$conf $dest
+  if [[ $conf -eq 'ssh_config' ]]; then
+   [ ! -e $HOME/.ssh/config ] && ln -s $DOTFILES/$conf $HOME/.ssh/config
+  else
+    dest=$HOME/.$conf
+    if [[ -e $dest ]]; then
+      echo "Already exists $dest"
+    else
+      echo "Linked: $dest"
+      ln -s $DOTFILES/$conf $dest
+    fi
+  fi
 done
 
 echo "Don't forget to run :PluginInstall in vim"
