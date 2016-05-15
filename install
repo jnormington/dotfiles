@@ -43,12 +43,14 @@ echo "Install Vundle"
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 echo "Install dotfiles"
+# Ensure the dotfiles directory exists
+mkdir -p $DOTFILES
 curl -Lo $DOWNLOAD_PATH/repo $DOTFILES_REPO
 unzip -e $DOWNLOAD_PATH/repo -d $DOWNLOAD_PATH
 mv $DOWNLOAD_PATH/dotfiles-*/dotfiles/* $DOTFILES
 
 # Move the files/directories in dotfiles into position
-for conf in $(ls $HOME/.dotfiles)
+for conf in $(ls $DOTFILES)
 do
   if [[ $conf == 'ssh_config' ]]; then
    [ ! -e $HOME/.ssh/config ] && ln -s $DOTFILES/$conf $HOME/.ssh/config
