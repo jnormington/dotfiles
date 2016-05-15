@@ -24,7 +24,7 @@ HOMEBREW_APPS=(
   wget
 )
 
-if [[ $(uname) -eq "Darwin" ]]; then
+if [[ $(uname) == "Darwin" ]]; then
   # Install homebrew
   echo "Install homebrew"
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -50,16 +50,12 @@ mv $DOWNLOAD_PATH/dotfiles-*/dotfiles/* $DOTFILES
 # Move the files/directories in dotfiles into position
 for conf in $(ls $HOME/.dotfiles)
 do
-  if [[ $conf -eq 'ssh_config' ]]; then
+  if [[ $conf == 'ssh_config' ]]; then
    [ ! -e $HOME/.ssh/config ] && ln -s $DOTFILES/$conf $HOME/.ssh/config
   else
     dest=$HOME/.$conf
-    if [[ -e $dest ]]; then
-      echo "Already exists $dest"
-    else
-      echo "Linked: $dest"
-      ln -s $DOTFILES/$conf $dest
-    fi
+    echo "Linked: $dest"
+    ln -sf $DOTFILES/$conf $dest
   fi
 done
 
