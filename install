@@ -27,7 +27,7 @@ HOMEBREW_APPS=(
 if [[ $(uname) -eq "Darwin" ]]; then
   # Install homebrew
   echo "Install homebrew"
-  ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   # Install all the apps with homebrew
   echo "Installing apps with homebrew"
   brew install ${HOMEBREW_APPS[@]} --force
