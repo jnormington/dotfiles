@@ -1,5 +1,8 @@
 export CLICOLOR=1
 
+# Allow editing the current command in vi with Esc then v
+set -o vi
+
 # Exports
 export EDITOR=vim;
 export HISTSIZE=32768;
