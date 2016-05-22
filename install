@@ -43,9 +43,7 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 echo "Install dotfiles"
 # Ensure the dotfiles directory exists
-cd $HOME
-git clone $DOTFILES_REPO
-mv $HOME/dotfiles $DOTFILES
+git clone $DOTFILES_REPO $DOTFILES
 
 # Move the files/directories in dotfiles into position
 for conf in $(ls $DOTFILES)
@@ -53,6 +51,9 @@ do
   if [[ $conf == 'ssh_config' ]]; then
     mkdir -p $HOME/.ssh
    [ ! -e $HOME/.ssh/config ] && ln -s $DOTFILES/$conf $HOME/.ssh/config
+  elif [[ $conf == 'README.md' ]] || [[ $conf == 'install' ]]; then
+    # Skip it we don't want to create links
+    echo "Skipped: $conf"
   else
     dest=$HOME/.$conf
     echo "Linked: $dest"
@@ -61,4 +62,4 @@ do
 done
 
 echo "Running commands in vim"
-vim +PluginInstall
+vim +PluginInstall +qall
