@@ -7,6 +7,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+Bundle 'altercation/vim-colors-solarized'
 Bundle 'bling/vim-airline'
 
 " Splithandler
@@ -64,11 +65,12 @@ set textwidth=100
 set colorcolumn=+1
 
 set number
-set numberwidth=5
+set numberwidth=2
 
 set splitbelow
 set splitright
 set relativenumber
+set cursorline
 
 syntax on
 
@@ -79,6 +81,10 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 inoremap jk <esc>
+
+" Theme stuff
+set background=dark
+colorscheme solarized
 
 augroup BgHighlight
   autocmd!
