@@ -1,0 +1,19 @@
+# Host github.com
+#   HostName github.com
+#   IdentityFile ~/.ssh/github_rsa
+#   PreferredAuthentications publickey
+#   User git
+#
+# Host bitbucket
+#   HostName bitbucket.org
+#   IdentityFile ~/.ssh/bitbucket_rsa
+#   PreferredAuthentications publickey
+#   User git
+
+
+# Host localForwardExample
+#   HostName initRight
+#   IdentityFile ~/.ssh/something
+#   PreferredAuthentications publickey
+#   User ticktock
+#   LocalForward 3309 1.1.1.1:3306
