@@ -1,7 +1,6 @@
 #!/bin/bash
 
-DOTFILES_REPO="https://github.com/jnormington/dotfiles/archive/master.zip"
-DOWNLOAD_PATH=$HOME/Downloads
+DOTFILES_REPO="https://github.com/jnormington/dotfiles"
 DOTFILES=$HOME/.dotfiles
 HOMEBREW_APPS=(
   Caskroom/cask/disablemonitor
@@ -35,7 +34,7 @@ else
   # Assume debian based os for now
   sudo add-apt-repository ppa:git-core/ppa -y
   sudo apt-get update
-  apt-get install git curl wget vim unzip
+  sudo apt-get install git curl wget vim unzip
 fi
 
 # Install Vundle for vim
@@ -44,15 +43,15 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 echo "Install dotfiles"
 # Ensure the dotfiles directory exists
-mkdir -p $DOTFILES
-curl -Lo $DOWNLOAD_PATH/repo $DOTFILES_REPO
-unzip -e $DOWNLOAD_PATH/repo -d $DOWNLOAD_PATH
-mv $DOWNLOAD_PATH/dotfiles-*/dotfiles/* $DOTFILES
+cd $HOME
+git clone $DOTFILES_REPO
+mv $HOME/dotfiles $DOTFILES
 
 # Move the files/directories in dotfiles into position
 for conf in $(ls $DOTFILES)
 do
   if [[ $conf == 'ssh_config' ]]; then
+    mkdir -p $HOME/.ssh
    [ ! -e $HOME/.ssh/config ] && ln -s $DOTFILES/$conf $HOME/.ssh/config
   else
     dest=$HOME/.$conf
@@ -61,4 +60,5 @@ do
   fi
 done
 
-echo "Don't forget to run :PluginInstall in vim"
+echo "Running commands in vim"
+vim +PluginInstall
