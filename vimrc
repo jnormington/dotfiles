@@ -86,10 +86,18 @@ inoremap jk <esc>
 set background=dark
 silent! colorscheme solarized
 
-augroup BgHighlight
+augroup vimrcEx
   autocmd!
-  autocmd WinEnter * set colorcolumn=100
-  autocmd WinLeave * set colorcolumn=0
+
+  autocmd! WinLeave * set nocursorline
+  autocmd! WinEnter * set cursorline
+
+  " .md is markdown - so syntax highlight and spellcheck
+  autocmd BufRead,BufNewFile *.md set filetype=markdown
+  autocmd BufRead,BufNewFile *.md setlocal spell
+
+  " Golang is tabbed not spaced
+  autocmd BufNewFile,BufRead *.go setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab
 augroup END
 
 " Remove all whitespace on the end of lines on write
@@ -105,10 +113,3 @@ au InsertLeave * set nopaste
 
 " Pretty print json
 map <Leader>f :%!python -m json.tool<CR>
-
-augroup vimrcEx
-  autocmd!
-  ".md is markdown - so syntax highlight and spellcheck
-  autocmd BufRead,BufNewFile *.md set filetype=markdown
-  autocmd BufRead,BufNewFile *.md setlocal spell
-augroup END
