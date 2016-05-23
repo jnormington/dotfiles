@@ -84,7 +84,7 @@ inoremap jk <esc>
 
 " Theme stuff
 set background=dark
-colorscheme solarized
+silent! colorscheme solarized
 
 augroup BgHighlight
   autocmd!
