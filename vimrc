@@ -113,3 +113,6 @@ au InsertLeave * set nopaste
 
 " Pretty print json
 map <Leader>f :%!python -m json.tool<CR>
+
+" Use goimports to import packages and format file
+let g:go_fmt_command = "goimports"
