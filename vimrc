@@ -116,3 +116,6 @@ map <Leader>f :%!python -m json.tool<CR>
 
 " Use goimports to import packages and format file
 let g:go_fmt_command = "goimports"
+" Error checking with go on save
+let g:syntastic_go_checkers = ['go', 'golint']
+let g:syntastic_aggregate_errors = 1
