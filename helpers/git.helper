@@ -1,7 +1,0 @@
-alias g="git"
-alias gs="git status"
-alias gb="git branch"
-alias gp="git pull"
-alias gd="git diff"
-alias gc="git checkout"
-alias gcb="git checkout -b"
