@@ -8,6 +8,7 @@ HOMEBREW_APPS=(
   Caskroom/cask/firefox
   Caskroom/cask/google-chrome
   Caskroom/cask/google-drive
+  Caskroom/cask/iterm2
   Caskroom/cask/vagrant
   Caskroom/cask/virtualbox
   Caskroom/cask/virtualbox-extension-pack
