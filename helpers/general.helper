@@ -14,3 +14,6 @@ alias less="less -X"
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
+
+# Most annoying thing to type
+alias c="clear"
