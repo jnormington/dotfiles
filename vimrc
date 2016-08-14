@@ -114,6 +114,9 @@ au InsertLeave * set nopaste
 " Pretty print json
 map <Leader>f :%!python -m json.tool<CR>
 
+" Copy to system clipboard (requires vim clipboard support)
+:vnoremap Y "+y<CR>
+
 " Use goimports to import packages and format file
 let g:go_fmt_command = "goimports"
 " Error checking with go on save
