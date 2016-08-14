@@ -7,7 +7,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Bundle 'altercation/vim-colors-solarized'
+Bundle 'w0ng/vim-hybrid'
 Bundle 'bling/vim-airline'
 
 " Splithandler
@@ -69,7 +69,6 @@ set numberwidth=2
 
 set splitbelow
 set splitright
-set relativenumber
 set cursorline
 
 syntax on
@@ -84,7 +83,8 @@ inoremap jk <esc>
 
 " Theme stuff
 set background=dark
-silent! colorscheme solarized
+let g:hybrid_custom_term_colors = 1
+silent! colorscheme hybrid
 
 augroup vimrcEx
   autocmd!
