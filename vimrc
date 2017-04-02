@@ -7,7 +7,6 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Bundle 'w0ng/vim-hybrid'
 Bundle 'bling/vim-airline'
 
 " Splithandler
@@ -82,9 +81,7 @@ nnoremap <C-l> <C-w>l
 inoremap jk <esc>
 
 " Theme stuff
-set background=dark
-let g:hybrid_custom_term_colors = 1
-silent! colorscheme hybrid
+colorscheme xoria256
 
 augroup vimrcEx
   autocmd!

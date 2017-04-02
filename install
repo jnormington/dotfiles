@@ -51,6 +51,10 @@ do
   if [[ $conf == 'ssh_config' ]]; then
     mkdir -p $HOME/.ssh
    [ ! -e $HOME/.ssh/config ] && ln -s $DOTFILES/$conf $HOME/.ssh/config
+  elif [[ $conf == 'xoria256.vim' ]]; then
+    dest=$HOME/.vim/colors
+    mkdir -p $dest
+    cp $conf $dest/
   elif [[ $conf == 'README.md' ]] || [[ $conf == 'install' ]]; then
     # Skip it we don't want to create links
     echo "Skipped: $conf"
