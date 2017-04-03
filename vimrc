@@ -7,8 +7,8 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Bundle 'w0ng/vim-hybrid'
 Bundle 'bling/vim-airline'
+Bundle 'chriskempson/base16-vim'
 
 " Splithandler
 Bundle 'blarghmatey/split-expander'
@@ -61,11 +61,7 @@ set incsearch     " do incremental searching
 set laststatus=2  " Always display the status line
 set backspace=2   " Backspace deletes like most programs in insert mode
 
-set ruler
-set textwidth=100
-set colorcolumn=+1
 set relativenumber
-
 set number
 set numberwidth=2
 
@@ -84,9 +80,11 @@ nnoremap <C-l> <C-w>l
 inoremap jk <esc>
 
 " Theme stuff
-set background=dark
-let g:hybrid_custom_term_colors = 1
-silent! colorscheme hybrid
+colorscheme base16-default-dark
+
+" Highlight only the lines that pass 80 chars virtually (Damian Conway talk)
+highlight ColorColumn ctermbg=blue
+call matchadd('ColorColumn', '\%81v', 100)
 
 augroup vimrcEx
   autocmd!
@@ -119,8 +117,8 @@ map <Leader>f :%!python -m json.tool<CR>
 " Copy to system clipboard (requires vim clipboard support)
 :vnoremap Y "+y<CR>
 
-" Use goimports to import packages and format file
+" vim-go stuff
 let g:go_fmt_command = "goimports"
-" Error checking with go on save
 let g:syntastic_go_checkers = ['go', 'golint']
-let g:syntastic_aggregate_errors = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_functions = 1
