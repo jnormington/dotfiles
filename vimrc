@@ -51,6 +51,7 @@ set shiftwidth=2
 set expandtab
 set autoindent
 set smartindent
+set nowrap
 
 set nobackup
 set nowritebackup
@@ -63,6 +64,7 @@ set backspace=2   " Backspace deletes like most programs in insert mode
 set ruler
 set textwidth=100
 set colorcolumn=+1
+set relativenumber
 
 set number
 set numberwidth=2
