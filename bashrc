@@ -1,5 +1,4 @@
 export CLICOLOR=1
-export TERM=xterm-256color
 
 # Allow editing the current command in vi with Esc then v
 set -o vi
