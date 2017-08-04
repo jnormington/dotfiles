@@ -67,7 +67,7 @@ set numberwidth=2
 
 set splitbelow
 set splitright
-set cursorline
+set nocursorline "Fix slowness with really long lines
 
 syntax on
 
