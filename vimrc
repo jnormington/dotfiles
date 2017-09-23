@@ -112,7 +112,14 @@ map <Leader>i :set paste<CR>i
 au InsertLeave * set nopaste
 
 " Pretty print json
-map <Leader>f :%!python -m json.tool<CR>
+map <Leader>f :FormatJSON<CR>
+
+" Quick commands for formatting serialized data
+command! FormatJSON :%!python -m json.tool
+command! FormatYAML :%!ruby -ryaml -e 'puts YAML.load(STDIN.read).to_yaml'
+command! FormatXML :%!xmllint --format -
+command! ConvertJSON2YAML :%!ruby -ryaml -rjson -e 'puts JSON.parse(STDIN.read).to_yaml'
+command! ConvertYAML2JSON :%!ruby -ryaml -rjson -e 'puts YAML.load(STDIN.read).to_json'
 
 " Copy to system clipboard (requires vim clipboard support)
 :vnoremap Y "+y<CR>

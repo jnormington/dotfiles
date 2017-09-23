@@ -3,6 +3,9 @@ export CLICOLOR=1
 # Allow editing the current command in vi with Esc then v
 set -o vi
 shopt -s histappend
+export HISTSIZE=32768;
+export HISTFILESIZE="${HISTSIZE}";
+
 # Exports
 export EDITOR=vim;
 
