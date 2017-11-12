@@ -114,12 +114,19 @@ au InsertLeave * set nopaste
 " Pretty print json
 map <Leader>f :FormatJSON<CR>
 
+" Current window management
+map M :tabe %<CR>
+map m :tabc<CR>
+
 " Quick commands for formatting serialized data
 command! FormatJSON :%!python -m json.tool
 command! FormatYAML :%!ruby -ryaml -e 'puts YAML.load(STDIN.read).to_yaml'
 command! FormatXML :%!xmllint --format -
 command! ConvertJSON2YAML :%!ruby -ryaml -rjson -e 'puts JSON.parse(STDIN.read).to_yaml'
 command! ConvertYAML2JSON :%!ruby -ryaml -rjson -e 'puts YAML.load(STDIN.read).to_json'
+
+" Read output from executed command in new buffer
+command! -nargs=* -complete=shellcmd Read new | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
 
 " Copy to system clipboard (requires vim clipboard support)
 :vnoremap Y "+y<CR>
