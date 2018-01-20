@@ -8,7 +8,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Bundle 'bling/vim-airline'
-Bundle 'chriskempson/base16-vim'
+Bundle 'w0ng/vim-hybrid'
 
 " Splithandler
 Bundle 'blarghmatey/split-expander'
@@ -80,7 +80,10 @@ nnoremap <C-l> <C-w>l
 inoremap jk <esc>
 
 " Theme stuff
-colorscheme base16-default-dark
+set background=dark
+
+let g:hybrid_custom_term_colors = 1
+colorscheme hybrid
 
 " Highlight only the lines that pass 80 chars virtually (Damian Conway talk)
 highlight ColorColumn ctermbg=blue
