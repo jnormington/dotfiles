@@ -54,6 +54,20 @@ do
   elif [[ $conf == 'README.md' ]] || [[ $conf == 'install' ]]; then
     # Skip it we don't want to create links
     echo "Skipped: $conf"
+  elif [[ $conf == "i3" ]]; then
+    if [[ $(uname) == "Linux" ]]; then
+      mkdir -p $HOME/.config/i3
+      ln -sf $DOTFILES/i3/config $HOME/.config/i3/config
+      echo "Linked: i3 config"
+      ln -sf $DOTFILES/i3/i3blocks.conf $HOME/.i3blocks.conf
+      echo "Linked: i3 blocks config"
+    fi
+  elif [[ $conf == "iterm2" ]]; then
+    if [[ $(uname) == "Darwin" ]]; then
+      dest=$HOME/.$conf
+      echo "Linked: $dest"
+      ln -sf $DOTFILES/$conf $dest
+    fi
   else
     dest=$HOME/.$conf
     echo "Linked: $dest"
