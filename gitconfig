@@ -11,3 +11,9 @@
 
 [alias]
   lg = log --pretty=oneline -n 20 --graph --abbrev-commit
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+
+[url "ssh://git@gitlab.com/"]
+	insteadOf = https://gitlab.com/
