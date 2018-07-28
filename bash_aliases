@@ -4,8 +4,6 @@ for f in ~/.helpers/*.helper; do source $f; done
 set -o vi
 
 shopt -s histappend
-# Get realtime history append/update
-PROMPT_COMMAND="history -a; history -n; history -r"
 
 # Omit duplicates and commands that begin with a space from history.
 export HISTCONTROL=ignoredups:erasedups
