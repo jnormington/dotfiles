@@ -13,10 +13,12 @@ URxvt.saveLines: 9000
 URxvt.cursorBlink: true
 
 URxvt.depth: 32
-URxvt.background: rgba:0000/0000/0000/bbbb
 URxvt.foreground: grey80
 
 URxvt.font: xft:Ubuntu Mono:pixelsize=16
+
+URxvt.transparent:   true
+URxvt.shading:       20
 
 ! - Terminal Colors
 !*foreground: #FFFFFF
