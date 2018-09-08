@@ -48,31 +48,45 @@ git clone $DOTFILES_REPO $DOTFILES
 # Move the files/directories in dotfiles into position
 for conf in $(ls $DOTFILES)
 do
-  if [[ $conf == 'ssh_config' ]]; then
-    mkdir -p $HOME/.ssh
-   [ ! -e $HOME/.ssh/config ] && ln -s $DOTFILES/$conf $HOME/.ssh/config
-  elif [[ $conf == 'README.md' ]] || [[ $conf == 'install' ]]; then
-    # Skip it we don't want to create links
-    echo "Skipped: $conf"
-  elif [[ $conf == "i3" ]]; then
-    if [[ $(uname) == "Linux" ]]; then
-      mkdir -p $HOME/.config/i3
-      ln -sf $DOTFILES/i3/config $HOME/.config/i3/config
-      echo "Linked: i3 config"
-      ln -sf $DOTFILES/i3/i3blocks.conf $HOME/.i3blocks.conf
-      echo "Linked: i3 blocks config"
-    fi
-  elif [[ $conf == "iterm2" ]]; then
-    if [[ $(uname) == "Darwin" ]]; then
+  case "$conf" in
+    README.md)
+      ;;
+    install)
+      ;;
+
+    ssh_config)
+      mkdir -p $HOME/.ssh
+      [ ! -e $HOME/.ssh/config ] && ln -s $DOTFILES/$conf $HOME/.ssh/config
+      echo "Linked: ssh_config"
+      ;;
+
+    brightness)
+      sudo cp $conf /usr/local/bin/
+      ;;
+
+    i3)
+      if [[ $(uname) == "Linux" ]]; then
+        mkdir -p $HOME/.config/i3
+        ln -sf $DOTFILES/i3/config $HOME/.config/i3/config
+        echo "Linked: i3 config"
+        ln -sf $DOTFILES/i3/i3blocks.conf $HOME/.i3blocks.conf
+        echo "Linked: i3 blocks config"
+      fi
+      ;;
+
+    iterm2)
+      if [[ $(uname) == "Darwin" ]]; then
+        dest=$HOME/.$conf
+        echo "Linked: $dest"
+        ln -sf $DOTFILES/$conf $dest
+      fi
+      ;;
+
+    *)
       dest=$HOME/.$conf
       echo "Linked: $dest"
       ln -sf $DOTFILES/$conf $dest
-    fi
-  else
-    dest=$HOME/.$conf
-    echo "Linked: $dest"
-    ln -sf $DOTFILES/$conf $dest
-  fi
+  esac
 done
 
 echo "Running commands in vim"
