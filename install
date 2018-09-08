@@ -4,7 +4,6 @@ DOTFILES_REPO="https://github.com/jnormington/dotfiles"
 DOTFILES=$HOME/.dotfiles
 HOMEBREW_APPS=(
   Caskroom/cask/disablemonitor
-  Caskroom/cask/enpass
   Caskroom/cask/firefox
   Caskroom/cask/google-chrome
   Caskroom/cask/google-drive
@@ -16,11 +15,10 @@ HOMEBREW_APPS=(
   Caskroom/cask/spectacle
   curl
   git
-  jmeter
-  perceptualdiff
   qpdf
   vim
   wget
+  zeal
 )
 
 if [[ $(uname) == "Darwin" ]]; then

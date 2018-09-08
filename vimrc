@@ -41,6 +41,9 @@ Bundle 'scrooloose/nerdtree'
 " Syntax error reporter
 Bundle "scrooloose/syntastic"
 
+" Zeal docs
+Bundle 'KabbAmine/zeavim.vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -133,6 +136,9 @@ command! -nargs=* -complete=shellcmd Read new | setlocal buftype=nofile bufhidde
 
 " Copy to system clipboard (requires vim clipboard support)
 :vnoremap Y "+y<CR>
+
+" Zeal docs
+map <Leader>z :Zeavim!<CR>
 
 " vim-go stuff
 let g:go_fmt_command = "goimports"
