@@ -15,10 +15,11 @@ URxvt.cursorBlink: true
 URxvt.depth: 32
 URxvt.foreground: grey80
 
-URxvt.font: xft:Ubuntu Mono:pixelsize=16
+URxvt.font: xft:Monaco-10
 
 URxvt.transparent:   true
 URxvt.shading:       20
+URxvt.letterSpace: 0
 
 ! - Terminal Colors
 !*foreground: #FFFFFF
