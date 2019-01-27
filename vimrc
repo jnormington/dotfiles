@@ -44,6 +44,9 @@ Bundle "scrooloose/syntastic"
 " Zeal docs
 Bundle 'KabbAmine/zeavim.vim'
 
+" Vim wiki
+Bundle 'vimwiki/vimwiki'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -123,6 +126,9 @@ map <Leader>f :FormatJSON<CR>
 " Current window management
 map M :tabe %<CR>
 map m :tabc<CR>
+
+" Preprocess long lines
+command FormatLongLines :%!fmt -80 -s
 
 " Quick commands for formatting serialized data
 command! FormatJSON :%!python -m json.tool
