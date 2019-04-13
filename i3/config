@@ -157,17 +157,17 @@ bar {
 }
 
 # Browser
-bindsym $mod+b exec google-chrome
+bindsym $mod+b exec vivaldi
 # Lock screen
 bindsym $mod+Escape exec i3lock -n
 # Screenshots like OSX
 bindsym Print exec scrot '%Y-%m-%d_$wx$h.png' -e 'mv $f ~/Screenshots/'
 bindsym Ctrl+Print exec scrot -u '%Y-%m-%d_$wx$h.png' -e 'mv $f ~/Screenshots/'
 
-# Volume controls
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+
-bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB-
-bindsym XF86AudioMute exec amixer -q set Master toggle
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
 
 # Screen brightness controls
 bindsym XF86MonBrightnessUp exec brightness +5
@@ -176,6 +176,6 @@ bindsym XF86MonBrightnessDown exec brightness -5
 # Change resolution to preferred
 exec --no-startup-id xrandr --output eDP-1 --mode 2048x1152
 # Set the preferred wallpaper
-exec --no-startup-id feh --bg-fill ~/Pictures/surreal-wallpaper.jpg
+exec --no-startup-id feh --bg-fill ~/documents/images/abstract.jpg
 # Set touch support on touchpad
 exec --no-startup-id xinput --set-prop "DELL07E6:00 06CB:76AF Touchpad" "libinput Tapping Enabled" 1
