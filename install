@@ -80,6 +80,9 @@ do
       fi
       ;;
 
+    gitconfig)
+     sed 's?%HOME_PATH%?'"$HOME"'?' > $HOME/.gitconfig
+      ;;
     *)
       dest=$HOME/.$conf
       echo "Linked: $dest"
