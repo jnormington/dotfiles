@@ -4,21 +4,17 @@ DOTFILES_REPO="https://github.com/jnormington/dotfiles"
 DOTFILES=$HOME/.dotfiles
 HOMEBREW_APPS=(
   Caskroom/cask/disablemonitor
-  Caskroom/cask/firefox
-  Caskroom/cask/google-chrome
-  Caskroom/cask/google-drive
   Caskroom/cask/iterm2
   Caskroom/cask/vagrant
   Caskroom/cask/virtualbox
   Caskroom/cask/virtualbox-extension-pack
-  Caskroom/cask/vlc
-  Caskroom/cask/spectacle
   curl
   git
   qpdf
   vim
   wget
-  zeal
+  node
+  go
 )
 
 if [[ $(uname) == "Darwin" ]]; then
@@ -32,8 +28,11 @@ else
   # Assume debian based os for now
   sudo add-apt-repository ppa:git-core/ppa -y
   sudo apt-get update
-  sudo apt-get install -y git curl wget vim unzip
+  sudo apt-get install -y git curl wget vim unzip pavucontrol zeal nodejs golang
 fi
+
+# Install global deps for typescript
+sudo npm install -g typescript tslint ts-node typescript-formatter
 
 # Install Vundle for vim
 echo "Install Vundle"
@@ -80,6 +79,10 @@ do
       fi
       ;;
 
+    ftplugin)
+      mkdir ~/.vim/after
+      ln -sf $DOTFILES/$conf ~/.vim/after/ftplugin
+      ;;
     gitconfig)
      sed 's?%HOME_PATH%?'"$HOME"'?' > $HOME/.gitconfig
       ;;
@@ -91,4 +94,4 @@ do
 done
 
 echo "Running commands in vim"
-vim +PluginInstall +qall
+vim +PluginInstall +qall +GoInstallBinaries
