@@ -16,6 +16,11 @@ Bundle 'blarghmatey/split-expander'
 " play nice with iterm2
 Bundle 'sjl/vitality.vim'
 
+" Async linter/fixer/lsp
+Bundle "w0rp/ale"
+" Formatter
+Bundle 'sbdchd/neoformat'
+
 " Git stuff
 Bundle 'tpope/vim-fugitive'
 Bundle 'airblade/vim-gitgutter'
@@ -28,9 +33,6 @@ Bundle 'tpope/vim-bundler'
 " Automatic end statements
 Bundle 'tpope/vim-endwise'
 
-" Go support
-Bundle 'fatih/vim-go'
-
 " Comment lines quickly
 Bundle 'vim-scripts/tComment'
 
@@ -38,14 +40,19 @@ Bundle 'vim-scripts/tComment'
 Bundle 'kien/ctrlp.vim'
 Bundle 'scrooloose/nerdtree'
 
-" Syntax error reporter
-Bundle "scrooloose/syntastic"
-
 " Zeal docs
 Bundle 'KabbAmine/zeavim.vim'
 
 " Vim wiki
 Bundle 'vimwiki/vimwiki'
+
+" Go support
+Bundle 'fatih/vim-go'
+
+" Typescript support
+Bundle 'leafgarland/typescript-vim'
+Bundle 'Quramy/tsuquyomi'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -98,8 +105,11 @@ call matchadd('ColorColumn', '\%81v', 100)
 augroup vimrcEx
   autocmd!
 
-  autocmd! WinLeave * set nocursorline
-  autocmd! WinEnter * set cursorline
+  autocmd WinLeave * set nocursorline
+  autocmd WinEnter * set cursorline
+
+  " Remove all whitespace on the end of lines on write
+  autocmd BufWritePre *.* :%s/\s\+$//e
 
   " .md is markdown - so syntax highlight and spellcheck
   autocmd BufRead,BufNewFile *.md set filetype=markdown
@@ -108,9 +118,6 @@ augroup vimrcEx
   " Golang is tabbed not spaced
   autocmd BufNewFile,BufRead *.go setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab
 augroup END
-
-" Remove all whitespace on the end of lines on write
-autocmd BufWritePre *.* :%s/\s\+$//e
 
 " Display that extra whitespace
 set list listchars=tab:»·,trail:·,nbsp:·
@@ -128,7 +135,7 @@ map M :tabe %<CR>
 map m :tabc<CR>
 
 " Preprocess long lines
-command FormatLongLines :%!fmt -80 -s
+command! FormatLongLines :%!fmt -80 -s
 
 " Quick commands for formatting serialized data
 command! FormatJSON :%!python -m json.tool
@@ -146,8 +153,15 @@ command! -nargs=* -complete=shellcmd Read new | setlocal buftype=nofile bufhidde
 " Zeal docs
 map <Leader>z :Zeavim!<CR>
 
-" vim-go stuff
-let g:go_fmt_command = "goimports"
-let g:syntastic_go_checkers = ['go', 'golint']
-let g:go_highlight_structs = 1
-let g:go_highlight_functions = 1
+" Global ale settings
+let g:airline#extensions#ale#enabled = 1
+let g:ale_sign_column_always = 1
+let g:ale_completion_enabled = 1
+let g:ale_fix_on_save = 0
+let g:ale_fixers = {'typescript': ['tslint'], 'go': ['gofmt','goimports']}
+let g:ale_linters = {'go': ['gometalinter','gofmt', 'gopls']}
+
+" Don't select or insert automatically from omnicomplete list
+setlocal completeopt=menu,menuone,preview,noselect,noinsert
+" Omnicomplete tab select item from list
+inoremap <expr><tab> pumvisible()?"\<c-n>":"\<tab>"
