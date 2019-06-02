@@ -117,6 +117,7 @@ augroup vimrcEx
 
   " Golang is tabbed not spaced
   autocmd BufNewFile,BufRead *.go setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab
+  autocmd BufNewFile,BufRead *.ts setlocal shiftwidth=4 tabstop=4 softtabstop=4
 augroup END
 
 " Display that extra whitespace
@@ -153,13 +154,21 @@ command! -nargs=* -complete=shellcmd Read new | setlocal buftype=nofile bufhidde
 " Zeal docs
 map <Leader>z :Zeavim!<CR>
 
-" Global ale settings
+" ALE settings
 let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_completion_enabled = 1
-let g:ale_fix_on_save = 0
+let g:ale_fix_on_save = 1
 let g:ale_fixers = {'typescript': ['tslint'], 'go': ['gofmt','goimports']}
 let g:ale_linters = {'go': ['gometalinter','gofmt', 'gopls']}
+
+let g:ale_go_langserver_executable = 'gopls'
+let g:go_highlight_structs = 1
+let g:go_highlight_functions = 1
+
+let g:tsuquyomi_completion_detail = 1
+let g:tsuquyomi_disable_quickfix = 1
+let g:typescript_indent_disable = 1
 
 " Don't select or insert automatically from omnicomplete list
 setlocal completeopt=menu,menuone,preview,noselect,noinsert
