@@ -83,9 +83,15 @@ do
       mkdir ~/.vim/after
       ln -sf $DOTFILES/$conf ~/.vim/after/ftplugin
       ;;
+
     gitconfig)
-     sed 's?%HOME_PATH%?'"$HOME"'?' > $HOME/.gitconfig
+     sed 's?%HOME_PATH%?'"$HOME"'?' $conf > $HOME/.gitconfig
       ;;
+
+    helpers)
+      # Let bash_alias will source from dotfiles directly
+      ;;
+
     *)
       dest=$HOME/.$conf
       echo "Linked: $dest"
