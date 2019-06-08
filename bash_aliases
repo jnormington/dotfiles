@@ -1,4 +1,4 @@
-for f in ~/.helpers/*.helper; do source $f; done
+for f in ~/.dotfiles/*.helper; do source $f; done
 
 # Allow editing the current command in vi with Esc then v
 set -o vi
