@@ -170,8 +170,8 @@ bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec brightness +5
-bindsym XF86MonBrightnessDown exec brightness -5
+bindsym XF86MonBrightnessUp exec xbacklight +10
+bindsym XF86MonBrightnessDown exec xbacklight -10
 
 # Change resolution to preferred
 exec --no-startup-id xrandr --output eDP-1 --mode 2048x1152

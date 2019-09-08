@@ -57,10 +57,6 @@ do
       echo "Linked: ssh_config"
       ;;
 
-    brightness)
-      sudo cp $conf /usr/local/bin/
-      ;;
-
     i3)
       if [[ $(uname) == "Linux" ]]; then
         mkdir -p $HOME/.config/i3
