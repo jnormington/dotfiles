@@ -179,3 +179,5 @@ exec --no-startup-id xrandr --output eDP-1 --mode 2048x1152
 exec --no-startup-id feh --bg-fill ~/documents/images/abstract.jpg
 # Set touch support on touchpad
 exec --no-startup-id xinput --set-prop "DELL07E6:00 06CB:76AF Touchpad" "libinput Tapping Enabled" 1
+# Remap caps to ESC and yes I prefer us keyboard layout
+exec --no-startup-id setxkbmap -layout us -option caps:escape
