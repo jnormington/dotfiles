@@ -2,37 +2,11 @@
 
 DOTFILES_REPO="https://github.com/jnormington/dotfiles"
 DOTFILES=$HOME/.dotfiles
-HOMEBREW_APPS=(
-  Caskroom/cask/disablemonitor
-  Caskroom/cask/iterm2
-  Caskroom/cask/vagrant
-  Caskroom/cask/virtualbox
-  Caskroom/cask/virtualbox-extension-pack
-  curl
-  git
-  qpdf
-  vim
-  wget
-  node
-  go
-)
 
-if [[ $(uname) == "Darwin" ]]; then
-  # Install homebrew
-  echo "Install homebrew"
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  # Install all the apps with homebrew
-  echo "Installing apps with homebrew"
-  brew install ${HOMEBREW_APPS[@]} --force
-else
-  # Assume debian based os for now
-  sudo add-apt-repository ppa:git-core/ppa -y
-  sudo apt-get update
-  sudo apt-get install -y git curl wget vim unzip pavucontrol zeal nodejs golang
-fi
-
-# Install global deps for typescript
-sudo npm install -g typescript tslint ts-node typescript-formatter
+# Assume debian based os for now
+sudo add-apt-repository ppa:git-core/ppa -y
+sudo apt-get update
+sudo apt-get install -y git curl wget vim unzip zeal
 
 # Install Vundle for vim
 echo "Install Vundle"
@@ -64,14 +38,6 @@ do
         echo "Linked: i3 config"
         ln -sf $DOTFILES/i3/i3blocks.conf $HOME/.i3blocks.conf
         echo "Linked: i3 blocks config"
-      fi
-      ;;
-
-    iterm2)
-      if [[ $(uname) == "Darwin" ]]; then
-        dest=$HOME/.$conf
-        echo "Linked: $dest"
-        ln -sf $DOTFILES/$conf $dest
       fi
       ;;
 
