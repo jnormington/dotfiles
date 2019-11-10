@@ -20,6 +20,16 @@ sudo apt-key add - < Release.key
 sudo apt-get update
 sudo apt-get install albert
 
+# Copy albert conf
+ALBERT_CONF_DIR=$HOME/.config/albert
+mkdir -p $ALBERT_CONF_DIR
+cp $DOTFILES/conf/albert.conf $ALBERT_CONF_DIR/
+
+# Remove window decorations from most windows
+GTK3_DIR=$HOME/.config/gtk-3.0
+mkdir -p $GTK3_DIR
+cp $DOTFILES/conf/gtk.css $GTK3_DIR/
+
 # Install Vundle for vim
 echo "Install Vundle"
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
