@@ -1,5 +1,4 @@
 alias hm="cd ~"
-alias cdr="cd ~/Repository"
 alias ..="cd .."
 alias ...="cd ../.."
 alias -- -="cd -"
