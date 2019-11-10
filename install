@@ -20,9 +20,11 @@ git clone $DOTFILES_REPO $DOTFILES
 for conf in $(ls $DOTFILES)
 do
   case "$conf" in
-    README.md)
+    README.md|install|helpers)
       ;;
-    install)
+
+    helpers)
+      # Let bash_alias will source from dotfiles directly
       ;;
 
     ssh_config)
@@ -50,8 +52,10 @@ do
      sed 's?%HOME_PATH%?'"$HOME"'?' $conf > $HOME/.gitconfig
       ;;
 
-    helpers)
-      # Let bash_alias will source from dotfiles directly
+    bashrc)
+      mv ~/.bashrc ~/.bashrc.old || true
+      echo "Linked: .bashrc"
+      ln -sf $DOTFILES/.bashrc ~/.bashrc
       ;;
 
     *)
