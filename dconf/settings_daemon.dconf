@@ -1,0 +1,20 @@
+[plugins/media-keys]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']
+
+[plugins/media-keys/custom-keybindings/custom0]
+binding='<Super>d'
+command='/usr/bin/albert show'
+name='Show albert'
+
+[plugins/media-keys/custom-keybindings/custom1]
+binding='<Super>space'
+command='/usr/bin/albert show'
+name='Show albert'
+
+[plugins/power]
+idle-dim=true
+sleep-inactive-ac-timeout=3600
+sleep-inactive-ac-type='nothing'
+
+[plugins/xsettings]
+hinting='slight'

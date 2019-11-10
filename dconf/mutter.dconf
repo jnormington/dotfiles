@@ -1,0 +1,4 @@
+[/]
+dynamic-workspaces=false
+experimental-features=['scale-monitor-framebuffer']
+workspaces-only-on-primary=true

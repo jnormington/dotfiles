@@ -1,0 +1,55 @@
+[/]
+default-show-menubar=false
+headerbar=@mb false
+mnemonics-enabled=true
+theme-variant='dark'
+
+[keybindings]
+copy='<Primary><Alt>c'
+paste='<Primary><Alt>v'
+zoom-in='<Primary>plus'
+zoom-out='<Primary>underscore'
+
+[profiles:]
+default='2fb57216-3c4c-4c6e-88b8-fae2aa26c38b'
+list=['2fb57216-3c4c-4c6e-88b8-fae2aa26c38b']
+
+[profiles:/:2fb57216-3c4c-4c6e-88b8-fae2aa26c38b]
+audible-bell=false
+background-color='#1d1f21'
+background-transparency-percent=20
+bold-color='#c5c8c6'
+bold-color-same-as-fg=true
+bold-is-bright=false
+cursor-blink-mode='system'
+cursor-colors-set=false
+cursor-shape='underline'
+font='Monospace 12'
+foreground-color='#c5c8c6'
+login-shell=true
+palette=['#1d1f21', '#cc6666', '#b5bd68', '#f0c674', '#81a2be', '#b294bb', '#8abeb7', '#c5c8c6', '#969896', '#cc6666', '#b5bd68', '#f0c674', '#81a2be', '#b294bb', '#8abeb7', '#ffffff']
+scroll-on-output=true
+scrollback-unlimited=true
+scrollbar-policy='always'
+use-system-font=false
+use-theme-background=false
+use-theme-colors=false
+use-theme-transparency=false
+use-transparent-background=false
+visible-name='Base 16 Tomorrow Dark'
+
+[profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+audible-bell=false
+background-color='rgb(46,52,54)'
+bold-is-bright=false
+cursor-blink-mode='off'
+cursor-shape='underline'
+foreground-color='rgb(211,215,207)'
+login-shell=true
+palette=['rgb(46,52,54)', 'rgb(204,0,0)', 'rgb(78,154,6)', 'rgb(196,160,0)', 'rgb(52,101,164)', 'rgb(117,80,123)', 'rgb(6,152,154)', 'rgb(211,215,207)', 'rgb(85,87,83)', 'rgb(239,41,41)', 'rgb(138,226,52)', 'rgb(252,233,79)', 'rgb(114,159,207)', 'rgb(173,127,168)', 'rgb(52,226,226)', 'rgb(238,238,236)']
+scroll-on-output=true
+scrollback-unlimited=true
+scrollbar-policy='always'
+use-theme-colors=false
+use-theme-transparency=false
+use-transparent-background=false

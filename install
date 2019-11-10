@@ -30,6 +30,13 @@ GTK3_DIR=$HOME/.config/gtk-3.0
 mkdir -p $GTK3_DIR
 cp $DOTFILES/conf/gtk.css $GTK3_DIR/
 
+# Apply dconf settings for /org/gnome/**/
+dconf load /org/gnome/terminal/legacy/ < $DOTFILES/dconf/terminal.dconf
+dconf load /org/gnome/desktop/ < $DOTFILES/dconf/desktop.dconf
+dconf load /org/gnome/settings-daemon/ < $DOTFILES/dconf/settings_daemon.dconf
+dconf load /org/gnome/mutter/ < $DOTFILES/dconf/mutter.dconf
+dconf load /org/gnome/shell/ < $DOTFILES/dconf/shell.dconf
+
 # Install Vundle for vim
 echo "Install Vundle"
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
