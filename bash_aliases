@@ -11,6 +11,10 @@ export HISTSIZE=32768;
 export HISTFILESIZE="${HISTSIZE}";
 
 export EDITOR=vim;
+export TERMINAL=urxvt
+
+# Prefix local bin directory
+export PATH=$HOME/.local/bin:$PATH
 
 # Prefer GB English and use UTF-8.
 export LANG='en_GB.UTF-8';
@@ -30,4 +34,3 @@ export PATH=/usr/local/go/bin:$GOPATH/bin:$PATH
 
 alias wificonnect="nmcli -ask device wifi connect"
 alias wifilist="nmcli device wifi"
-alias xreset="xrandr --output eDP-1 --mode 2048x1152"
