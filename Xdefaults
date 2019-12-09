@@ -8,7 +8,9 @@ Xft.rgba: rgb
 Xft.lcdfilter: lcddefault
 
 !- rvxt
-URxvt.scrollBar: false
+URxvt.scrollBar: true
+URxvt.scrollBar_right: true
+URxvt*scrollstyle: plain
 URxvt.saveLines: 9000
 URxvt.cursorBlink: true
 
