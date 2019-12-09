@@ -29,9 +29,6 @@ alias tree="ls -lR | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 
-export GOPATH=~/go
-export PATH=/usr/local/go/bin:$GOPATH/bin:$PATH
-
 alias wificonnect="nmcli -ask device wifi connect"
 alias wifilist="nmcli device wifi"
 
