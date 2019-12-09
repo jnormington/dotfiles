@@ -54,6 +54,7 @@ do
     fonts)
       mkdir -p $HOME/.fonts
       cp fonts/* $HOME/.fonts/
+      echo "Linked: fonts"
       ;;
     ssh_config)
       mkdir -p $HOME/.ssh
@@ -71,7 +72,7 @@ do
     i3status)
       if [[ $(uname) == "Linux" ]]; then
         mkdir -p $HOME/.config/i3status
-        ln -s $DOTFILES/i3status.conf $HOME/.config/i3status/config
+        ln -s $DOTFILES/i3status $HOME/.config/i3status/config
         echo "Linked: i3 status config"
       fi
       ;;
@@ -80,13 +81,13 @@ do
       if [[ $(uname) == "Darwin" ]]; then
         dest=$HOME/.$conf
         echo "Linked: $dest"
-        ln -sf $DOTFILES/$conf $dest
+        ln -s $DOTFILES/$conf $dest
       fi
       ;;
 
     ftplugin)
-      mkdir ~/.vim/after
-      ln -sf $DOTFILES/$conf ~/.vim/after/ftplugin
+      mkdir ~/.vim/after/ftplugin
+      ln -s $DOTFILES/$conf/* ~/.vim/after/ftplugin/
       ;;
 
     gitconfig)
@@ -98,18 +99,14 @@ do
       ;;
     scripts)
       mkdir -p $HOME/.local/bin
-      for f in scripts/*
-      do
-        name=$(basename $f)
-        ln -s $f $HOME/.local/bin/$name
-        echo "Linked $f"
-      done
+      ln -s $DOTFILES/scripts/* $HOME/.local/bin/
+      echo "Linked scripts"
       ;;
 
     *)
       dest=$HOME/.$conf
       echo "Linked: $dest"
-      ln -sf $DOTFILES/$conf $dest
+      ln -s $DOTFILES/$conf $dest
   esac
 done
 
