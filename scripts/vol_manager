@@ -1,0 +1,58 @@
+#!/bin/bash
+
+set -e
+
+SINK=`pactl info | grep 'Default Sink' | cut -d ':' -f2`
+CURRENT_VOL="-1"
+ACTION=$1
+VOL_CHANGE=$2
+MSG_TIMEOUT=3000
+
+notify_user() {
+  notify-send -u low -t $MSG_TIMEOUT "$1"
+}
+
+get_volume() {
+  CURRENT_VOL=`pactl list sinks | grep -A7 "$SINK" | grep '^[[:space:]]Volume:' | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,'`
+}
+
+check_vol_valid() {
+  get_volume
+
+  NEW_VOL="$(echo $VOL_CHANGE | sed 's/^[-+]\(.*\)%/\1/')"
+  DIRECTION="$(echo $VOL_CHANGE | cut -c 1)"
+
+  if [[ "$DIRECTION" == "+" && $(($NEW_VOL + $CURRENT_VOL)) -gt 100 ]];
+  then
+    notify-send "Volume above 100 - ignoring..."
+    exit 0
+  fi
+}
+
+if [[ -z "$SINK" ]];
+then
+  notify-send -t $MSG_TIMEOUT -u critical "Failed to fetch current sink from pactl"
+  exit 1
+fi
+
+if [[ -z "$ACTION" ]];
+then
+  notify-send -t $MSG_TIMEOUT -u normal "Missing action to alter volume"
+  exit 1
+fi
+
+case "$ACTION" in
+  "vol")
+    check_vol_valid
+    pactl set-sink-volume $SINK $VOL_CHANGE
+
+    get_volume
+    notify_user "Volume updated to $CURRENT_VOL%"
+  ;;
+  "mute-toggle")
+    pactl set-sink-mute $SINK toggle
+    notify_user "Volume toggled mute"
+  ;;
+  *)
+    notify_user "Unknown sound action $ACTION"
+esac

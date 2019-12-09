@@ -96,6 +96,15 @@ do
     helpers)
       # Let bash_alias will source from dotfiles directly
       ;;
+    scripts)
+      mkdir -p $HOME/.local/bin
+      for f in scripts/*
+      do
+        name=$(basename $f)
+        ln -s $f $HOME/.local/bin/$name
+        echo "Linked $f"
+      done
+      ;;
 
     *)
       dest=$HOME/.$conf
