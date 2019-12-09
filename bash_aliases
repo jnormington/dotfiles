@@ -34,3 +34,5 @@ export PATH=/usr/local/go/bin:$GOPATH/bin:$PATH
 
 alias wificonnect="nmcli -ask device wifi connect"
 alias wifilist="nmcli device wifi"
+
+alias xclip="xclip -selection clipboard"
