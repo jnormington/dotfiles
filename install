@@ -51,6 +51,10 @@ do
     install)
       ;;
 
+    fonts)
+      mkdir -p $HOME/.fonts
+      cp fonts/* $HOME/.fonts/
+      ;;
     ssh_config)
       mkdir -p $HOME/.ssh
       [ ! -e $HOME/.ssh/config ] && ln -s $DOTFILES/$conf $HOME/.ssh/config
@@ -62,8 +66,13 @@ do
         mkdir -p $HOME/.config/i3
         ln -s $DOTFILES/i3config $HOME/.config/i3/config
         echo "Linked: i3 config"
-        ln -sf $DOTFILES/i3/i3blocks.conf $HOME/.i3blocks.conf
-        echo "Linked: i3 blocks config"
+      fi
+      ;;
+    i3status)
+      if [[ $(uname) == "Linux" ]]; then
+        mkdir -p $HOME/.config/i3status
+        ln -s $DOTFILES/i3status.conf $HOME/.config/i3status/config
+        echo "Linked: i3 status config"
       fi
       ;;
 
