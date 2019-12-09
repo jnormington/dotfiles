@@ -196,6 +196,9 @@ bindsym $mod+Shift+Print exec xfce4-screenshooter -c -r
 bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
 
+# rename workspace on the fly
+bindsym $mod+Shift+n exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
+
 # Pulse Audio and media controls
 bindsym XF86AudioRaiseVolume exec vol_manager vol +5%
 bindsym XF86AudioLowerVolume exec vol_manager vol -5%
