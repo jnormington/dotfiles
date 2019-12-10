@@ -223,7 +223,7 @@ exec --no-startup-id syndaemon -d -i .7
 exec --no-startup-id blueman-applet
 
 # Change resolution to preferred
-exec --no-startup-id xrandr --output eDP1 --mode 1920x1080
+exec_always --no-startup-id update_display extend
 # Set the preferred wallpaper
 exec --no-startup-id feh --bg-fill /usr/share/xfce4/backdrops/xubuntu-artful.png
 # Enable touchpad support with hori/vert scrolling
