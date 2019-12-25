@@ -159,8 +159,8 @@ let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_completion_enabled = 1
 let g:ale_fix_on_save = 1
-let g:ale_fixers = {'typescript': ['tslint', 'prettier'], 'go': ['gofmt','goimports']}
-let g:ale_linters = {'go': ['gometalinter','gofmt', 'gopls']}
+let g:ale_fixers = {'typescript': ['tslint', 'prettier'], 'go': ['gofmt','goimports'], 'ruby': ['rubocop']}
+let g:ale_linters = {'go': ['gometalinter','gofmt', 'gopls'], 'ruby': ['rubocop']}
 
 let g:ale_go_langserver_executable = 'gopls'
 let g:go_highlight_structs = 1
