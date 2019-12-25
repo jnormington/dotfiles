@@ -52,13 +52,13 @@ cpu_usage {
 }
 
 tztime local {
-  format = "<span color='#adbbc9'>  %time </span>"
+  format = "<span color='#adbbc9'> %time </span>"
   format_time = "%a %-d %b %H:%M"
 }
 
 cpu_temperature 0 {
   format = "<span color='#e0b853'>  %degrees °C </span>"
-  path   = "/sys/class/thermal/thermal_zone0/temp"
+  path   = "/sys/class/thermal/thermal_zone10/temp"
 }
 
 load {
