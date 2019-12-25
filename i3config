@@ -133,7 +133,7 @@ bindsym $mod+Shift+Escape mode "$mode_system"
 set $mode_system (l)ock, (e)xit, (s)uspend, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3lock, mode "default"
-    bindsym s exec --no-startup-id systemctl suspend, i3lock, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
     bindsym e exec --no-startup-id i3msg exit, mode "default"
     bindsym r exec --no-startup-id reboot, mode "default"
     bindsym Shift+s exec --no-startup-id shutdown 0, mode "default"
@@ -206,7 +206,7 @@ bindsym XF86AudioMute exec vol_manager mute-toggle
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrevios exec playerctl previous
+bindsym XF86AudioPrev exec playerctl previous
 
 # Screen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight +5
