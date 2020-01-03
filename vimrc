@@ -43,9 +43,6 @@ Bundle 'scrooloose/nerdtree'
 " Zeal docs
 Bundle 'KabbAmine/zeavim.vim'
 
-" Vim wiki
-Bundle 'vimwiki/vimwiki'
-
 " Go support
 Bundle 'fatih/vim-go'
 
@@ -89,8 +86,6 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
-
-inoremap jk <esc>
 
 " Theme stuff
 set background=dark
