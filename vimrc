@@ -50,6 +50,8 @@ Bundle 'fatih/vim-go'
 Bundle 'leafgarland/typescript-vim'
 Bundle 'Quramy/tsuquyomi'
 
+" I'm lazy auto resize focus window
+Bundle 'roman/golden-ratio'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -126,6 +128,10 @@ au InsertLeave * set nopaste
 " Pretty print json
 map <Leader>f :FormatJSON<CR>
 
+map <F7> :vertical resize 90<CR>
+map <F8> :GoldenRatioToggle<CR>
+map <F9> :NERDTreeToggle<CR>
+
 " Current window management
 map M :tabe %<CR>
 map m :tabc<CR>
@@ -148,6 +154,7 @@ command! -nargs=* -complete=shellcmd Read new | setlocal buftype=nofile bufhidde
 
 " Zeal docs
 map <Leader>z :Zeavim!<CR>
+vmap <Leader>z :ZeavimV<CR>
 
 " ALE settings
 let g:airline#extensions#ale#enabled = 1
@@ -164,6 +171,8 @@ let g:go_highlight_functions = 1
 let g:tsuquyomi_completion_detail = 1
 let g:tsuquyomi_disable_quickfix = 1
 let g:typescript_indent_disable = 1
+
+let g:golden_ratio_exclude_nonmodifiable = 1
 
 " Don't select or insert automatically from omnicomplete list
 setlocal completeopt=menu,menuone,preview,noselect,noinsert
