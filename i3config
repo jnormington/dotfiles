@@ -132,7 +132,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+Shift+Escape mode "$mode_system"
 set $mode_system (l)ock, (e)xit, (s)uspend, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3lock, mode "default"
+    bindsym l exec --no-startup-id xscreensaver-command -lock, mode "default"
     bindsym s exec --no-startup-id systemctl suspend, mode "default"
     bindsym e exec --no-startup-id i3msg exit, mode "default"
     bindsym r exec --no-startup-id reboot, mode "default"
@@ -186,7 +186,7 @@ bar {
 # Browser
 bindsym $mod+b exec firefox
 # Lock screen
-bindsym $mod+Escape exec dm-tool lock
+bindsym $mod+Escape exec xscreensaver-command -lock
 # Screenshots
 bindsym Print exec xfce4-screenshooter -f -s ~/Screenshots/
 bindsym $mod+Print exec xfce4-screenshooter -r -s ~/Screenshots/
