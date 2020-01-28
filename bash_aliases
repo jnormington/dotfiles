@@ -33,3 +33,6 @@ alias wificonnect="nmcli -ask device wifi connect"
 alias wifilist="nmcli device wifi"
 
 alias xclip="xclip -selection clipboard"
+alias tma="tmux attach -t"
+alias tmd="tmux detach"
+alias tmn="~/.dotfiles/scripts/tmux_sessions"

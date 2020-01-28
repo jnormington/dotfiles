@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Docs http://man7.org/linux/man-pages/man1/tmux.1.html
+# Setups up common project setup across similar rails projects
+# 1st arg session name
+# 2nd arg workspace directory
+# 3nd arg attach on completion (optional)
+
+SESSION=${1-noname}
+WORKSPACE=$2
+
+echo "Setting up session \"$SESSION\" at workspace \"$WORKSPACE\""
+
+# set up new session and start server if not running
+tmux -l new -d -s $SESSION -n dev -c $WORKSPACE
+
+# Select pane 1, set dir and run vim with nerdtree
+tmux selectp -t 1
+tmux send-keys "vim +NERDTree" C-m
+
+# Split pane 2 vertical by 70% for plain shell
+tmux splitw -v -p 30 -c $WORKSPACE
+tmux selectp -t 1
+
+# Split pane 3 horizonal for tests
+tmux selectp -t 1
+tmux splitp -h -c $WORKSPACE
+tmux send-keys "rspec spec"
+
+# create a new window and select
+tmux new-window -t $SESSION -n app -c $WORKSPACE
+tmux selectw -t 2
+
+# Split pane 1 run rails console
+tmux selectp -t 1
+tmux send-keys "bundle;rails c" C-m
+
+# Select pane 1, run rails server
+tmux splitw -v -p 30 -c $WORKSPACE
+tmux selectp -t 2
+tmux send-keys "bundle;rails s" C-m
+
+# return to first window
+tmux select-window -t $SESSION:1
+
+# Finished setup, attach to the tmux session!
+if [[ $3 == "attach" ]];
+then
+  tmux attach-session -t $SESSION
+fi
