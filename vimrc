@@ -29,6 +29,7 @@ Bundle 'airblade/vim-gitgutter'
 Bundle "tpope/vim-rails"
 Bundle "vim-ruby/vim-ruby"
 Bundle 'tpope/vim-bundler'
+Bundle 'slim-template/vim-slim'
 
 " Automatic end statements
 Bundle 'tpope/vim-endwise'
