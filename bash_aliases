@@ -9,10 +9,6 @@ alias tma="tmux attach -t"
 alias tmd="tmux detach"
 alias tmn="~/.dotfiles/scripts/tmux_sessions"
 
-alias rm='rm -i'
-alias mv='mv -i'
-alias cp='cp -i'
-
 # Add defaults and a touch of color
 alias ls='ls -lh --color=auto'
 alias grep='grep --color=auto --exclude-dir=\.git'

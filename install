@@ -2,113 +2,106 @@
 
 DOTFILES_REPO="https://github.com/jnormington/dotfiles"
 DOTFILES=$HOME/.dotfiles
-HOMEBREW_APPS=(
-  Caskroom/cask/disablemonitor
-  Caskroom/cask/iterm2
-  Caskroom/cask/vagrant
-  Caskroom/cask/virtualbox
-  Caskroom/cask/virtualbox-extension-pack
-  curl
+
+VUNDLE_DIR=$HOME/.vim/bundle/Vundle.vim
+CONFIG_DIR=$HOME/.config
+FONTS_DIR=$HOME/.local/fonts
+SSH_DIR=$HOME/.ssh
+FTPLUGIN_DIR=$HOME/.vim/after/ftplugin
+
+set -e
+
+PACKAGES=(
   git
-  qpdf
   vim
-  wget
-  node
-  go
+  dunst
+  tmux
+  xclip
+  playerctl
+  xorg-xbacklight
+  dnsutils
+  bash-completion
+  bluez-utils
+  bluez
+  pulseaudio-bluetooth
+  libcurl-gnutls # for spotify
 )
 
-if [[ $(uname) == "Darwin" ]]; then
-  # Install homebrew
-  echo "Install homebrew"
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  # Install all the apps with homebrew
-  echo "Installing apps with homebrew"
-  brew install ${HOMEBREW_APPS[@]} --force
-else
-  # Assume debian based os for now
-  sudo add-apt-repository ppa:git-core/ppa -y
+mkdirAndSymlink() {
+  mkdir -p $1
 
-  # Add spotify sources
-  curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
-  echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+  if [ ! -e $1/$3 ];
+  then
+    ln -s $DOTFILES/$2 $1/$3
+    echo "symlinked $DOTFILES/$2 -> $1/$3"
+  else
+    echo "skipped $2"
+  fi
+}
 
-  sudo apt-get update
-  sudo apt-get install -y git curl wget vim unzip pavucontrol zeal spotify-client
+# Where I mount all external disks
+echo "Create media dir"
+mkdir -p $HOME/media
+
+echo "Installing libs"
+sudo pacman -S ${PACKAGES[@]}
+
+if [ ! -d $VUNDLE_DIR ];
+then
+  echo "Installing Vundle"
+  git clone https://github.com/VundleVim/Vundle.vim.git $VUNDLE_DIR
 fi
 
-# Install Vundle for vim
-echo "Install Vundle"
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+echo "Installing dotfiles"
 
-echo "Install dotfiles"
-# Ensure the dotfiles directory exists
-git clone $DOTFILES_REPO $DOTFILES
-
-# Move the files/directories in dotfiles into position
 for conf in $(ls $DOTFILES)
 do
   case "$conf" in
-    README.md)
-      ;;
-    install)
-      ;;
-
     fonts)
-      mkdir -p $HOME/.fonts
-      cp fonts/* $HOME/.fonts/
-      echo "Linked: fonts"
-      ;;
-    ssh_config)
-      mkdir -p $HOME/.ssh
-      [ ! -e $HOME/.ssh/config ] && ln -s $DOTFILES/$conf $HOME/.ssh/config
-      echo "Linked: ssh_config"
-      ;;
-
-    i3config)
-      if [[ $(uname) == "Linux" ]]; then
-        mkdir -p $HOME/.config/i3
-        ln -s $DOTFILES/i3config $HOME/.config/i3/config
-        echo "Linked: i3 config"
+      if [ ! -d $FONTS_DIR ];
+      then
+        mkdir -p $FONTS_DIR
+        ln -s $DOTFILES/fonts/* $FONTS_DIR
+      else
+        echo "skipped $conf"
       fi
       ;;
-    i3status)
-      if [[ $(uname) == "Linux" ]]; then
-        mkdir -p $HOME/.config/i3status
-        ln -s $DOTFILES/i3status $HOME/.config/i3status/config
-        echo "Linked: i3 status config"
-      fi
-      ;;
-
-    iterm2)
-      if [[ $(uname) == "Darwin" ]]; then
-        dest=$HOME/.$conf
-        echo "Linked: $dest"
-        ln -s $DOTFILES/$conf $dest
-      fi
-      ;;
-
     ftplugin)
-      mkdir ~/.vim/after/ftplugin
-      ln -s $DOTFILES/$conf/* ~/.vim/after/ftplugin/
-      ;;
-
-    gitconfig)
-     sed 's?%HOME_PATH%?'"$HOME"'?' $conf > $HOME/.gitconfig
-      ;;
-
-    helpers)
-      # Let bash_alias will source from dotfiles directly
+      if [ ! -d $FTPLUGIN_DIR ];
+      then
+        mkdir -p $FTPLUGIN_DIR
+        ln -s $DOTFILES/ftplugin/* $FTPLUGIN_DIR
+      else
+        echo "skipped $conf"
+      fi
       ;;
     scripts)
-      mkdir -p $HOME/.local/bin
-      ln -s $DOTFILES/scripts/* $HOME/.local/bin/
-      echo "Linked scripts"
+      if [ ! -d $SCRIPTS_DIR ];
+      then
+        mkdir -p $SCRIPTS_DIR
+        ln -s $DOTFILES/scripts/* $SCRIPTS_DIR
+      else
+        echo "skipped $conf"
+      fi
       ;;
-
-    *)
-      dest=$HOME/.$conf
-      echo "Linked: $dest"
-      ln -s $DOTFILES/$conf $dest
+    ssh_config)
+      mkdirAndSymlink $SSH_DIR $conf config
+      ;;
+    i3status)
+      mkdirAndSymlink $HOME/.config/$conf $conf config
+      ;;
+    i3config)
+      mkdirAndSymlink $HOME/.config/i3 $conf config
+      ;;
+    gitconfig|gitignore_global|vimrc|tmux.conf)
+      mkdirAndSymlink $HOME $conf .$conf
+      ;;
+    dir_colors|bashrc|bash_aliases|profile|xinitrc|Xdefaults)
+      mkdirAndSymlink $HOME $conf .$conf
+      ;;
+    dunstrc)
+      mkdirAndSymlink $HOME/.config/dunst $conf $conf
+      ;;
   esac
 done
 
