@@ -7,7 +7,7 @@
   default = simple
 
 [core]
-  excludesfile = %HOME_PATH%/.gitignore_global
+  excludesfile = /home/jon/.gitignore_global
 
 [alias]
   lg = log --pretty=oneline -n 20 --graph --abbrev-commit
