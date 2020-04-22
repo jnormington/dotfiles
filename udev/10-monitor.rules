@@ -1,0 +1,3 @@
+# When an external screen is plugged in/out
+KERNEL=="card0", SUBSYSTEM=="drm", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/jon/.Xauthority", RUN+="/home/jon/.local/bin/update_display"
+

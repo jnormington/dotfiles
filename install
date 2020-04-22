@@ -9,6 +9,8 @@ FONTS_DIR=$HOME/.local/fonts
 SSH_DIR=$HOME/.ssh
 FTPLUGIN_DIR=$HOME/.vim/after/ftplugin
 USER_SYSTEMD_DIR=$HOME/.config/systemd/user
+UDEV_RULES_DIR=/etc/udev/rules.d
+SCRIPTS_DIR=$HOME/.local/bin
 
 set -e
 
@@ -99,6 +101,10 @@ do
         echo "skipped $conf"
       fi
       ;;
+    udev)
+      echo "copying udev rules"
+      sudo cp $DOTFILES/udev/* $UDEV_RULES_DIR/
+      ;;
     ssh_config)
       mkdirAndSymlink $SSH_DIR $conf config
       ;;
@@ -123,6 +129,9 @@ done
 
 echo "Starting services"
 enableAndStartServices
+
+echo "Reload udev rules"
+sudo udevadm control --reload-rules
 
 echo "Running commands in vim"
 vim +PluginInstall +qall +GoInstallBinaries
