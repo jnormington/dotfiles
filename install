@@ -8,6 +8,7 @@ CONFIG_DIR=$HOME/.config
 FONTS_DIR=$HOME/.local/fonts
 SSH_DIR=$HOME/.ssh
 FTPLUGIN_DIR=$HOME/.vim/after/ftplugin
+USER_SYSTEMD_DIR=$HOME/.config/systemd/user
 
 set -e
 
@@ -37,6 +38,11 @@ mkdirAndSymlink() {
   else
     echo "skipped $2"
   fi
+}
+
+enableAndStartServices() {
+  systemctl --user enable ssh-agent
+  systemctl --user start ssh-agent
 }
 
 # Where I mount all external disks
@@ -84,6 +90,15 @@ do
         echo "skipped $conf"
       fi
       ;;
+    systemd)
+      if [ ! -d $USER_SYSTEMD_DIR ];
+      then
+        mkdir -p $USER_SYSTEMD_DIR
+        ln -s $DOTFILES/systemd/user/* $USER_SYSTEMD_DIR
+      else
+        echo "skipped $conf"
+      fi
+      ;;
     ssh_config)
       mkdirAndSymlink $SSH_DIR $conf config
       ;;
@@ -102,8 +117,12 @@ do
     dunstrc)
       mkdirAndSymlink $HOME/.config/dunst $conf $conf
       ;;
+
   esac
 done
+
+echo "Starting services"
+enableAndStartServices
 
 echo "Running commands in vim"
 vim +PluginInstall +qall +GoInstallBinaries
