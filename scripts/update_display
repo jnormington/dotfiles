@@ -1,22 +1,26 @@
 #!/bin/bash
 
-DP1=$(xrandr | grep "^DP1" | cut -d ' ' -f2)
-DP2=$(xrandr | grep "^DP2" | cut -d ' ' -f2)
+INT_1="eDP1"
+EXT_1="DP1"
+EXT_2="DP2"
+
+DP1=$(xrandr | grep "^$EXT_1" | cut -d ' ' -f2)
+DP2=$(xrandr | grep "^$EXT_2" | cut -d ' ' -f2)
 
 X_OPTS=""
-ARG=$1
+ARG="${1:-external}"
 
 notify_user() {
   notify-send -u low -t 2000 "$1"
 }
 
 disconnect_monitor() {
-  xrandr --output DP1 --off
-  xrandr --output DP2 --off
-  xrandr --output eDP1 --mode 1920x1080
+  xrandr --output $EXT_1 --off
+  xrandr --output $EXT_2 --off
+  xrandr --output $INT_1 --mode 1920x1080
 }
 
-if [[ -z "$1" ]];
+if [[ -z "$ARG" ]];
 then
   disconnect_monitor
   notify_user "Reset monitor setup"
@@ -25,13 +29,13 @@ fi
 
 case $ARG in
 "extend")
-  X_OPTS="--left-of eDP1"
+  X_OPTS="--left-of $INT_1"
   ;;
 "mirror")
-  X_OPTS="--same-as eDP1"
+  X_OPTS="--same-as $INT_1"
   ;;
 "external")
-  X_OPTS="--output eDP1 --off"
+  X_OPTS="--output $INT_1 --off"
   ;;
 *)
   X_OPTS=""
@@ -45,12 +49,12 @@ fi
 
 if [[ "$DP1" == "connected" ]];
 then
-  xrandr --output DP1 --auto $X_OPTS
+  xrandr --output $EXT_1 --auto $X_OPTS
   notify_user "External display connected"
 fi
 
 if [[ "$DP2" == "connected" ]];
 then
-  xrandr --output DP2 --auto $X_OPTS
+  xrandr --output $EXT_2 --auto $X_OPTS
   notify_user "External display connected"
 fi
