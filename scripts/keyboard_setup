@@ -1,0 +1,8 @@
+#!/bin/bash
+
+notify_user() {
+  notify-send -u low -t 2000 "$1"
+}
+
+setxkbmap -layout us -option caps:escape
+notify_user "Keyboard mapping updated"
