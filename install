@@ -42,9 +42,22 @@ mkdirAndSymlink() {
   fi
 }
 
+mkdirMultiFileSymlink() {
+  if [ ! -d $1 ];
+  then
+    mkdir -p $1
+    ln -s $DOTFILES/$2/* $1
+    echo "symlinked $2"
+  else
+    echo "skipped $2"
+  fi
+}
+
 enableAndStartServices() {
   systemctl --user enable ssh-agent
   systemctl --user start ssh-agent
+
+  sudo systemctl enable locking@jon.service
 }
 
 # Where I mount all external disks
@@ -66,40 +79,17 @@ for conf in $(ls $DOTFILES)
 do
   case "$conf" in
     fonts)
-      if [ ! -d $FONTS_DIR ];
-      then
-        mkdir -p $FONTS_DIR
-        ln -s $DOTFILES/fonts/* $FONTS_DIR
-      else
-        echo "skipped $conf"
-      fi
+      mkdirMultiFileSymlink $FONTS_DIR "fonts"
       ;;
     ftplugin)
-      if [ ! -d $FTPLUGIN_DIR ];
-      then
-        mkdir -p $FTPLUGIN_DIR
-        ln -s $DOTFILES/ftplugin/* $FTPLUGIN_DIR
-      else
-        echo "skipped $conf"
-      fi
+      mkdirMultiFileSymlink $FTPLUGIN_DIR "ftplugin"
       ;;
     scripts)
-      if [ ! -d $SCRIPTS_DIR ];
-      then
-        mkdir -p $SCRIPTS_DIR
-        ln -s $DOTFILES/scripts/* $SCRIPTS_DIR
-      else
-        echo "skipped $conf"
-      fi
+      mkdirMultiFileSymlink $SCRIPTS_DIR "scripts"
       ;;
     systemd)
-      if [ ! -d $USER_SYSTEMD_DIR ];
-      then
-        mkdir -p $USER_SYSTEMD_DIR
-        ln -s $DOTFILES/systemd/user/* $USER_SYSTEMD_DIR
-      else
-        echo "skipped $conf"
-      fi
+      mkdirMultiFileSymlink $USER_SYSTEMD_DIR "systemd/user"
+      sudo cp $conf/etc/* /etc/systemd/system/
       ;;
     udev)
       echo "copying udev rules"

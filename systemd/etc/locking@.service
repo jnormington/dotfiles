@@ -1,0 +1,13 @@
+[Unit]
+Description=Lock session on suspend
+Before=sleep.target
+Before=suspend.target
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+ExecStart=i3lock -nbf -c 708090
+
+[Install]
+WantedBy=sleep.target
+WantedBy=suspend.target
