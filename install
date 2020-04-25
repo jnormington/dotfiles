@@ -128,3 +128,7 @@ fc-cache -f
 
 echo "Running commands in vim"
 vim +PluginInstall +qall +GoInstallBinaries
+
+echo "Merging xrdb configs"
+[ -e ~/.Xresources ] && rm ~/.Xresources
+xrdb ~/.Xdefaults
