@@ -14,4 +14,9 @@ export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 # Golang path
 export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$PATH
+export GOROOT=$HOME/.local/go
+export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+
+# Node/Ruby version manager
+export NVM_DIR="$HOME/.nvm"
+export RVM_DIR="$HOME/.rvm"

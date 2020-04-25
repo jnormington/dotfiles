@@ -1,0 +1,48 @@
+#!/bin/bash
+
+mkdir -p $HOME/dev
+
+NVM_DIR=$HOME/.nvm
+RVM_DIR=$HOME/.rvm
+GOSRC_DIR=$HOME/dev/golang
+
+pushd ~/Downloads
+
+echo "Install latest go"
+
+if [ ! -d $GOSRC_DIR ];
+then
+  git clone https://github.com/golang/go $GOSRC_DIR
+  pushd $GOSRC_DIR
+  GO_VERSION=`git tag --sort=committerdate -l go* | tail -n 1`
+  popd
+fi
+
+if [ -z $GO_VERSION ];
+then
+  echo "Failed to fetch latest go version"
+else
+  curl -O https://dl.google.com/go/$GOLANG_VERSION.linux-amd64.tar.gz
+  tar -C $HOME/.local/$GOLANG_VERSION -xzf $GOLANG_VERSION.linux-amd64.tar.gz
+  ln -s $HOME/.local/$GO_VERSION $HOME/.local/go
+fi
+
+echo "Install rvm"
+
+if [ ! -d $RVM_DIR ];
+then
+  curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+  curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
+  curl -sSL https://get.rvm.io | bash -s stable --ruby --ignore-dotfiles
+fi
+
+echo "Install nvm"
+
+if [ ! -d $NVM_DIR ];
+then
+  git clone https://github.com/nvm-sh/nvm.git $NVM_DIR
+  cd "$NVM_DIR"
+  git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+fi
+
+popd

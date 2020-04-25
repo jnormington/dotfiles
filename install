@@ -30,6 +30,7 @@ PACKAGES=(
   pulseaudio-bluetooth
   libcurl-gnutls # for spotify
   xf86-input-synaptics # for syndaemon
+  gcc
 )
 
 mkdirAndSymlink() {
@@ -134,3 +135,6 @@ vim +PluginInstall +qall +GoInstallBinaries
 echo "Merging xrdb configs"
 [ -e ~/.Xresources ] && rm ~/.Xresources
 xrdb ~/.Xdefaults
+
+echo "Running app installs"
+bash app_installs

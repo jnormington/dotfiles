@@ -30,3 +30,11 @@ shopt -s expand_aliases
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
+
+# RVM
+[ -s "$RVM_DIR/scripts/rvm" ] && \. "$RVM_DIR/scripts/rvm"
+[ -r $RVM_DIR/scripts/completion ] && . $RVM_DIR/scripts/completion
+
+# NVM
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
