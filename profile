@@ -11,3 +11,7 @@ export LC_ALL='en_GB.UTF-8';
 export MANPAGER='less -X';
 
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+# Golang path
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$PATH
