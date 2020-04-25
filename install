@@ -26,8 +26,10 @@ PACKAGES=(
   bash-completion
   bluez-utils
   bluez
+  blueman
   pulseaudio-bluetooth
   libcurl-gnutls # for spotify
+  xf86-input-synaptics # for syndaemon
 )
 
 mkdirAndSymlink() {
