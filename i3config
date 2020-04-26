@@ -197,8 +197,8 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight +5
-bindsym XF86MonBrightnessDown exec xbacklight -5
+bindsym XF86MonBrightnessUp exec "xbacklight +5; notify-send -t 1000 \\"Brightness: $(xbacklight)\\""
+bindsym XF86MonBrightnessDown exec "xbacklight -5; notify-send -t 1000 \\"Brightness: $(xbacklight)\\""
 
 exec --no-startup-id xfce4-power-manager
 # Network manager applet
