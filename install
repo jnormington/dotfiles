@@ -116,7 +116,11 @@ do
     dunstrc)
       mkdirAndSymlink $HOME/.config/dunst $conf $conf
       ;;
-
+    firewall.rules)
+      echo "Updating iptable rules"
+      sudo iptables-restore $conf
+      sudo su - -c "iptables-save > /etc/iptables/iptables.rules"
+      sudo su - -c "iptables-save > /etc/iptables/ip6tables.rules"
   esac
 done
 
@@ -139,6 +143,7 @@ xrdb ~/.Xdefaults
 echo "Starting services"
 sudo systemctl enable bluetooth
 sudo systemctl start bluetooth
+sudo systemctl enable iptables
 
 echo "Running app installs"
 bash app_installs

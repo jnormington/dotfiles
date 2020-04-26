@@ -1,0 +1,21 @@
+# load firewall config with iptables-restore < iptables.rules
+
+*filter
+
+# default DROP policies
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+
+# allow all outgoing
+:OUTPUT ACCEPT [0:0]
+
+# accept any related or established connections
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# allow all traffic on the loopback interface
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+# commit changes
+COMMIT
