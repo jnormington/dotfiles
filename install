@@ -136,5 +136,9 @@ echo "Merging xrdb configs"
 [ -e ~/.Xresources ] && rm ~/.Xresources
 xrdb ~/.Xdefaults
 
+echo "Starting services"
+sudo systemctl enable bluetooth
+sudo systemctl start bluetooth
+
 echo "Running app installs"
 bash app_installs
