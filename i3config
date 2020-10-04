@@ -174,9 +174,10 @@ bindsym $mod+b exec firefox
 # Lock screen
 bindsym $mod+Escape exec blurlock 
 # Screenshots
-bindsym Print exec xfce4-screenshooter -f -s ~/Screenshots/
-bindsym $mod+Print exec xfce4-screenshooter -r -s ~/Screenshots/
-bindsym $mod+Shift+Print exec xfce4-screenshooter -c -r
+bindsym Print exec maim ~/Screenshots/$(date +%s).png
+# bindsym $mod+Print exec xfce4-screenshooter -r -s ~/Screenshots/
+bindsym $mod+Print exec maim -s | xclip -selection clipboard -t image/png
+bindsym $mod+Shift+Print maim -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 
 # quick workspace nav
 bindsym $mod+Ctrl+l workspace next
