@@ -9,6 +9,7 @@ export LC_ALL='en_GB.UTF-8';
 
 # Don’t clear the screen after quitting a manual page.
 export MANPAGER='less -X';
+export PAGER='less'
 
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
