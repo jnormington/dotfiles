@@ -11,6 +11,17 @@
 
 set $mod Mod4
 
+# Configure border style <normal|1pixel|pixel xx|none|pixel>
+default_border pixel 3
+default_floating_border normal
+
+# Hide borders
+hide_edge_borders none
+
+# change borders
+bindsym $mod+u border none
+bindsym $mod+n border normal
+
 focus_follows_mouse no
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -108,6 +119,19 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+# Open specific applications in floating mode
+for_window [title="alsamixer"] floating enable border pixel 1
+for_window [class="Manjaro-hello"] floating enable
+for_window [class="Manjaro Settings Manager"] floating enable border normal
+for_window [class="Pamac-manager"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [title="Firewall"] floating enable
+for_window [title="Virus Scanner"] floating enable border normal
+for_window [class="(?i)virtualbox"] floating enable border normal
+
+# switch to workspace with urgent window automatically
+for_window [urgent=latest] focus
+
 # Support shutdown, restart and locking
 bindsym $mod+0 mode "$mode_system"
 set $mode_system (l)ock, (e)xit, (s)uspend, (r)eboot, (Shift+s)hutdown
@@ -170,12 +194,43 @@ bar {
 }
 
 # Browser
-bindsym $mod+b exec firefox
+bindsym $mod+b exec brave
 # Lock screen
 bindsym $mod+Escape exec blurlock 
 
+# Autostart applications
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Set the preferred wallpaper
+exec --no-startup-id nitrogen --restore; sleep 1; picom -b
+
+# Tray applets
+exec --no-startup-id nm-applet
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id pamac-tray
+
+# Volume applet
+exec --no-startup-id pasystray
+
+# Lock service
+exec --no-startup-id xautolock -time 15 -locker blurlock
+
+# Bluetooth applet
+exec --no-startup-id blueman-applet
+
+# Clipboard helper
+exec --no-startup-id clipit
+
+# Remap caps to ESC and yes I prefer us keyboard layout
+exec --no-startup-id setxkbmap -model pc105
+exec --no-startup-id ~/.local/bin/keyboard_setup
+exec_always --no-startup-id fix_xcursor
+
+# Advanced power mgmt
+exec --no-startup-id tlp bat
+
 # Screenshots
-bindsym Print exec maim ~/Screenshots/$(date +%s).png
+bindsym Print exec maim ~/Pictures/$(date +%s).png
 bindsym $mod+Print exec maim -s | xclip -selection clipboard -t image/png
 bindsym $mod+Shift+Print maim -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 
@@ -197,32 +252,5 @@ bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-# Screen brightness controls
-bindsym XF86MonBrightnessUp exec "xbacklight +5; notify-send -t 1000 \\"Brightness: $(xbacklight)\\""
-bindsym XF86MonBrightnessDown exec "xbacklight -5; notify-send -t 1000 \\"Brightness: $(xbacklight)\\""
-
-exec --no-startup-id xfce4-power-manager
-# Network manager applet
-exec --no-startup-id nm-applet
-# Volume applet
-exec --no-startup-id volumnicon 
-# Disable touchpad when typing
-exec --no-startup-id syndaemon -d -i .7
-# Bluetooth applet
-exec --no-startup-id blueman-applet
-
 # Change resolution to preferred
 exec --no-startup-id update_display extend
-# Set the preferred wallpaper
-exec --no-startup-id nitrogen --restore
-# Enable touchpad support with hori/vert scrolling
-exec --no-startup-id synclient VertTwoFingerScroll=1
-exec --no-startup-id synclient HorizTwoFingerScroll=1
-exec --no-startup-id synclient TouchpadOff=0
-
-# Autolock when idle
-exec --no-startup-id xautolock -time 5 -locker blurlock
-# Remap caps to ESC and yes I prefer us keyboard layout
-exec_always --no-startup-id setxkbmap -layout us -option caps:escape
-# Advanced power mgmt
-exec --no-startup-id tlp bat
