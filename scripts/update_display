@@ -15,9 +15,9 @@ notify_user() {
 }
 
 disconnect_monitor() {
+  xrandr --output $INT_1 --mode 1920x1080
   xrandr --output $EXT_1 --off
   xrandr --output $EXT_2 --off
-  xrandr --output $INT_1 --mode 1920x1080
 }
 
 if [[ -z "$ARG" ]];
@@ -36,6 +36,9 @@ case $ARG in
   ;;
 "external")
   X_OPTS="--output $INT_1 --off"
+  ;;
+"present")
+  X_OPTS="--output $INT_1 --off --output $EXT_1 --mode 1920x1080"
   ;;
 *)
   X_OPTS=""
