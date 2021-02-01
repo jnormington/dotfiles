@@ -1,5 +1,6 @@
 [[ $- != *i* ]] && return
 
+# Ensure to have installed bash-completion for this file to exist - gets me everytime
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 
 # Set the PS1 prompt (with colors) - only display the last child/parent directory
@@ -13,11 +14,6 @@ export HISTCONTROL=ignoredups:erasedups
 export HISTSIZE=32768;
 export HISTFILESIZE="${HISTSIZE}";
 shopt -s histappend
-# Append immediately
-PROMPT_COMMAND='history -a'
-
-xhost +local:root > /dev/null 2>&1
-complete -cf sudo
 
 # Bash won't get SIGWINCH if another process is in the foreground.
 # Enable checkwinsize so that bash will check the terminal size when
@@ -29,6 +25,11 @@ shopt -s expand_aliases
 # Add bash aliases
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
+fi
+
+# Source any custom envs
+if [ -f ~/.custom_envs ]; then
+    source ~/.custom_envs
 fi
 
 # RVM
