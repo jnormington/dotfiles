@@ -33,6 +33,7 @@ if [ -f ~/.custom_envs ]; then
 fi
 
 # RVM
+export PATH="$PATH:$HOME/.rvm/bin"
 [ -s "$RVM_DIR/scripts/rvm" ] && \. "$RVM_DIR/scripts/rvm"
 [ -r $RVM_DIR/scripts/completion ] && . $RVM_DIR/scripts/completion
 

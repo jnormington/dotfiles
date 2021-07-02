@@ -13,7 +13,7 @@ mouse:
     modifiers: Command
 
 shell:
-  program: /bin/zsh
+  program: /usr/local/bin/bash
   args:
     - --login
 
