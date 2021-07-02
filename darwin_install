@@ -1,0 +1,72 @@
+#!/bin/bash
+
+DOTFILES_REPO="https://github.com/jnormington/dotfiles"
+DOTFILES=$HOME/.dotfiles
+
+VUNDLE_DIR=$HOME/.vim/bundle/Vundle.vim
+
+HOMEBREW_APPS=(
+  vagrant
+  virtualbox
+  virtualbox-extension-pack
+  curl
+  git
+  qpdf
+  vim
+  bash
+  bash-completion@2
+)
+
+# Install homebrew
+echo "Install homebrew"
+if [ ! -f /usr/local/bin/brew ];
+then
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+# Install all the apps with homebrew
+echo "Installing apps with homebrew"
+brew install ${HOMEBREW_APPS[@]} --force
+
+# Install Vundle for vim
+echo "Install Vundle"
+if [ -d ~/.vim/bundle/Vundle.vim ];
+then
+  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+fi
+
+echo "Install dotfiles"
+if [ ! -d ~/.dotfiles ];
+then
+  git clone $DOTFILES_REPO $DOTFILES
+fi
+
+echo "Writing a default bash_profile"
+if [ ! -f ~/.bash_profile ];
+then
+cat <<EOF > ~/.bash_profile
+if [[ -f "/Users/jon/.bashrc" ]]; then
+  source /Users/jon/.bashrc
+fi
+EOF
+fi
+
+# Symbolic link specific files
+echo "Sym linking files"
+
+ln -s ~/.dotfiles/darwinrc ~/.darwinrc
+ln -s ~/.dotfiles/bashrc ~/.bashrc
+ln -s ~/.dotfiles/gitignore_global ~/.gitignore_global
+
+# vim/tmux and vim plugins
+mkdir -p ~/.vim/after/ftplugin
+
+ln -s ~/.dotfiles/tmux ~/.tmux
+ln -s ~/.dotfiles/vimrc ~/.vimrc
+ln -s ~/.dotfiles/ftplugin/* ~/.vim/after/ftplugin
+
+# Copy as we update the file
+cp ~/.dotfiles/gitconfig ~/.gitconfig
+echo "Updating gitconfig with OSX home path"
+sed 's|/home/jon|/Users/jon|g' ~/.gitconfig > tmpfile
+mv tmpfile ~/.gitconfig
