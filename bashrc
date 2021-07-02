@@ -32,6 +32,11 @@ if [ -f ~/.custom_envs ]; then
     source ~/.custom_envs
 fi
 
+# Source darwin specifics if it exists
+if [ -f ~/.darwinrc ]; then
+    source ~/.darwinrc
+fi
+
 # RVM
 export PATH="$PATH:$HOME/.rvm/bin"
 [ -s "$RVM_DIR/scripts/rvm" ] && \. "$RVM_DIR/scripts/rvm"
