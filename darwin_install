@@ -64,6 +64,11 @@ ln -s ~/.dotfiles/gitignore_global ~/.gitignore_global
 mkdir -p ~/.config/
 ln -s ~/.dotfiles/config/* ~/.config/
 
+# This is noticable delay with animations not disabled
+echo "Disabling animation of windows and speed up resize"
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+
 # vim/tmux and vim plugins
 mkdir -p ~/.vim/after/ftplugin
 
