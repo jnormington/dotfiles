@@ -15,6 +15,9 @@ HOMEBREW_APPS=(
   vim
   bash
   bash-completion@2
+  koekeishiya/formulae/yabai
+  koekeishiya/formulae/skhd
+  cmacrae/formulae/spacebar
 )
 
 # Install homebrew
@@ -57,6 +60,9 @@ echo "Sym linking files"
 ln -s ~/.dotfiles/darwinrc ~/.darwinrc
 ln -s ~/.dotfiles/bashrc ~/.bashrc
 ln -s ~/.dotfiles/gitignore_global ~/.gitignore_global
+
+mkdir -p ~/.config/
+ln -s ~/.dotfiles/config/* ~/.config/
 
 # vim/tmux and vim plugins
 mkdir -p ~/.vim/after/ftplugin
