@@ -51,6 +51,9 @@ Bundle 'fatih/vim-go'
 Bundle 'leafgarland/typescript-vim'
 Bundle 'Quramy/tsuquyomi'
 
+" GraphQL
+Bundle 'jparise/vim-graphql'
+
 " I'm lazy auto resize focus window
 Bundle 'roman/golden-ratio'
 
