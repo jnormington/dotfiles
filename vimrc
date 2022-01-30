@@ -153,6 +153,8 @@ command! -nargs=* -complete=shellcmd Read new | setlocal buftype=nofile bufhidde
 " Copy to system clipboard (requires vim clipboard support)
 :vnoremap Y "+y<CR>
 
+nnoremap <Leader>b :buffers<CR>:buffer<Space>
+
 " Zeal docs
 map <Leader>z :Zeavim!<CR>
 vmap <Leader>z :ZeavimV<CR>
