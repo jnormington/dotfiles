@@ -158,20 +158,25 @@ map <Leader>z :Zeavim!<CR>
 vmap <Leader>z :ZeavimV<CR>
 
 " ALE settings
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
+
+map <Leader>d :ALEGoToDefinition -vsplit<CR>
+map <Leader>r :ALEFindReferences -vsplit<CR>
+
 let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
-let g:ale_completion_enabled = 1
 let g:ale_fix_on_save = 1
-
-let g:ale_go_langserver_executable = 'gopls'
-let g:go_highlight_structs = 1
-let g:go_highlight_functions = 1
+let g:ale_preview_item_open_in = 'tab'
 
 let g:tsuquyomi_completion_detail = 1
 let g:tsuquyomi_disable_quickfix = 1
 let g:typescript_indent_disable = 1
 
 let g:golden_ratio_exclude_nonmodifiable = 1
+let g:go_highlight_types = 1
+let g:go_highlight_functions = 1
+let g:go_gopls_enabled = 0
 
 " Don't select or insert automatically from omnicomplete list
 setlocal completeopt=menu,menuone,preview,noselect,noinsert
