@@ -15,18 +15,19 @@ alt - return : open -n /Applications/Alacritty.app
 
 # Others apps on quick open
 alt - b : open -n /Applications/Brave\ Browser.app
+alt - v : open -n /Applications/TablePlus.app
 
 # move focused window to next/prev workspace
 alt + shift - u : yabai -m window --space prev
 alt + shift - i : yabai -m window --space next
 
 # move focused window to specific workspace
-alt + shift - 1 : yabai -m window --space 1
-alt + shift - 2 : yabai -m window --space 2
-alt + shift - 3 : yabai -m window --space 3
-alt + shift - 4 : yabai -m window --space 4
-alt + shift - 5 : yabai -m window --space 5
-alt + shift - 6 : yabai -m window --space 6
+alt + ctrl + shift - 1 : yabai -m window --space 1
+alt + ctrl + shift - 2 : yabai -m window --space 2
+alt + ctrl + shift - 3 : yabai -m window --space 3
+alt + ctrl + shift - 4 : yabai -m window --space 4
+alt + ctrl + shift - 5 : yabai -m window --space 5
+alt + ctrl + shift - 6 : yabai -m window --space 6
 
 # re-balance size of window
 alt - 0 : yabai -m space --balance
