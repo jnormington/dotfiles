@@ -137,7 +137,7 @@ map m :tabc<CR>
 command! FormatLongLines :%!fmt -80 -s
 
 " Quick commands for formatting serialized data
-command! FormatJSON :%!python -m json.tool
+command! FormatJSON :%!ruby -rjson -e 'puts JSON.pretty_generate(JSON.parse(STDIN.read))'
 command! FormatYAML :%!ruby -ryaml -e 'puts YAML.load(STDIN.read).to_yaml'
 command! FormatXML :%!xmllint --format -
 command! ConvertJSON2YAML :%!ruby -ryaml -rjson -e 'puts JSON.parse(STDIN.read).to_yaml'
