@@ -1,7 +1,5 @@
 map <Leader>d :TsuDefinition<CR>
 map <Leader>f :ALEFix<CR>
 
-autocmd! BufWritePre *.ts :silent Neoformat
-
-let b:ale_linters = ['eslint', 'prettier']
+let b:ale_linters = ['eslint', 'prettier', 'tsserver']
 let b:ale_fixers = ['eslint', 'prettier']
