@@ -10,16 +10,8 @@ Plugin 'VundleVim/Vundle.vim'
 Bundle 'bling/vim-airline'
 Bundle 'w0ng/vim-hybrid'
 
-" Splithandler
-Bundle 'blarghmatey/split-expander'
-
-" play nice with iterm2
-Bundle 'sjl/vitality.vim'
-
 " Async linter/fixer/lsp
 Bundle "w0rp/ale"
-" Formatter
-Bundle 'sbdchd/neoformat'
 
 " Git stuff
 Bundle 'tpope/vim-fugitive'
@@ -50,8 +42,9 @@ Bundle 'fatih/vim-go'
 " GraphQL
 Bundle 'jparise/vim-graphql'
 
-" I'm lazy auto resize focus window
-Bundle 'roman/golden-ratio'
+" Typescript
+Bundle 'leafgarland/typescript-vim'
+Bundle 'peitalin/vim-jsx-typescript'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -126,7 +119,6 @@ map <Leader>i :set paste<CR>i
 au InsertLeave * set nopaste
 
 map <F7> :vertical resize 90<CR>
-map <F8> :GoldenRatioToggle<CR>
 map <F9> :NERDTreeToggle<CR>
 
 " Current window management
@@ -158,19 +150,22 @@ vmap <Leader>z :ZeavimV<CR>
 " ALE settings
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
-
-map <Leader>d :ALEGoToDefinition -vsplit<CR>
-map <Leader>r :ALEFindReferences -vsplit<CR>
-
-let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_fix_on_save = 1
 let g:ale_preview_item_open_in = 'tab'
+let g:ale_set_balloons=1
+set omnifunc=ale#completion#OmniFunc
 
-let g:golden_ratio_exclude_nonmodifiable = 1
+map <Leader>d :ALEGoToDefinition -tab<CR>
+map <Leader>r :ALEFindReferences -tab<CR>
+map <Leader>g :ALEHover<CR>
+
+let g:airline#extensions#ale#enabled = 1
+
+" Vim-go
+let g:go_gopls_enabled = 0
 let g:go_highlight_types = 1
 let g:go_highlight_functions = 1
-let g:go_gopls_enabled = 1
 
 " Don't select or insert automatically from omnicomplete list
 setlocal completeopt=menu,menuone,preview,noselect,noinsert
