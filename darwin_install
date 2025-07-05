@@ -15,6 +15,8 @@ HOMEBREW_APPS=(
   vim
   bash
   bash-completion@2
+  FelixKratz/formulae
+  nikitabobko/tap/aerospace
 )
 
 # Install homebrew
