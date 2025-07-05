@@ -15,9 +15,6 @@ HOMEBREW_APPS=(
   vim
   bash
   bash-completion@2
-  koekeishiya/formulae/yabai
-  koekeishiya/formulae/skhd
-  cmacrae/formulae/spacebar
 )
 
 # Install homebrew
