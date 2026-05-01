@@ -168,6 +168,6 @@ let g:go_highlight_types = 1
 let g:go_highlight_functions = 1
 
 " Don't select or insert automatically from omnicomplete list
-setlocal completeopt=menu,menuone,preview,noselect,noinsert
+set completeopt=menu,menuone,preview,noselect,noinsert
 " Omnicomplete tab select item from list
 inoremap <expr><tab> pumvisible()?"\<c-n>":"\<tab>"
