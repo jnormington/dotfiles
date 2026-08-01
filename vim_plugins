@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# Installs and updates vim plugins as native vim 9 packages
+# Plugins are cloned to ~/.vim/pack/plugins/start and loaded automatically
+
+PACK_DIR=$HOME/.vim/pack/plugins/start
+
+set -e
+
+PLUGINS=(
+  bling/vim-airline
+  w0ng/vim-hybrid
+
+  # Async linter/fixer
+  dense-analysis/ale
+
+  # LSP client
+  yegappan/lsp
+
+  # Git stuff
+  tpope/vim-fugitive
+  airblade/vim-gitgutter
+
+  # Ruby/Rails stuff
+  tpope/vim-rails
+  vim-ruby/vim-ruby
+  tpope/vim-bundler
+  slim-template/vim-slim
+
+  # Automatic end statements
+  tpope/vim-endwise
+
+  # Comment lines quickly
+  vim-scripts/tComment
+
+  # Easy find like sublime
+  ctrlpvim/ctrlp.vim
+  preservim/nerdtree
+
+  # Zeal docs
+  KabbAmine/zeavim.vim
+
+  # Go support
+  fatih/vim-go
+
+  # GraphQL
+  jparise/vim-graphql
+
+  # Typescript
+  leafgarland/typescript-vim
+  peitalin/vim-jsx-typescript
+)
+
+mkdir -p $PACK_DIR
+
+for plugin in "${PLUGINS[@]}"; do
+  name=${plugin#*/}
+  dir=$PACK_DIR/$name
+
+  if [ -d $dir ];
+  then
+    echo "updating $name"
+    git -C $dir pull --quiet --ff-only
+  else
+    echo "installing $name"
+    git clone --quiet --depth 1 https://github.com/$plugin $dir
+  fi
+done
+
+echo "Generating help tags"
+
+for doc in $PACK_DIR/*/doc; do
+  if [ -d $doc ];
+  then
+    vim -es -u NONE -c "helptags $doc" -c 'qall'
+  fi
+done
