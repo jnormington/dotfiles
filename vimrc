@@ -1,54 +1,7 @@
 set nocompatible
-filetype off
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Bundle 'bling/vim-airline'
-Bundle 'w0ng/vim-hybrid'
-
-" Async linter/fixer/lsp
-Bundle "w0rp/ale"
-
-" Git stuff
-Bundle 'tpope/vim-fugitive'
-Bundle 'airblade/vim-gitgutter'
-
-" Ruby/Rails stuff
-Bundle "tpope/vim-rails"
-Bundle "vim-ruby/vim-ruby"
-Bundle 'tpope/vim-bundler'
-Bundle 'slim-template/vim-slim'
-
-" Automatic end statements
-Bundle 'tpope/vim-endwise'
-
-" Comment lines quickly
-Bundle 'vim-scripts/tComment'
-
-" Easy find like sublime
-Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/nerdtree'
-
-" Zeal docs
-Bundle 'KabbAmine/zeavim.vim'
-
-" Go support
-Bundle 'fatih/vim-go'
-
-" GraphQL
-Bundle 'jparise/vim-graphql'
-
-" Typescript
-Bundle 'leafgarland/typescript-vim'
-Bundle 'peitalin/vim-jsx-typescript'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" Plugins are native vim 9 packages in ~/.vim/pack/plugins/start
+filetype plugin indent on
 
 set autowrite     " Automatically :write before running commands
 set tabstop=2
