@@ -74,6 +74,11 @@ for doc in $PACK_DIR/*/doc; do
 done
 
 # Lsp server additional installs
+# --prefix on the command line beats any prefix in npmrc, so these land in a
+# known place whatever npm is configured to do
+NPM_DIR=$HOME/.node_modules
+BIN_DIR=$HOME/.local/bin
+
 NPM_SERVERS=(
   typescript
   typescript-language-server
@@ -85,7 +90,12 @@ NPM_SERVERS=(
 if command -v npm > /dev/null;
 then
   echo "Installing language servers"
-  npm install --global --silent "${NPM_SERVERS[@]}"
+  mkdir -p $BIN_DIR
+  npm install --global --silent --prefix $NPM_DIR "${NPM_SERVERS[@]}"
+
+  for bin in $NPM_DIR/bin/*; do
+    ln -sf $bin $BIN_DIR/$(basename $bin)
+  done
 else
   echo "Skipping language servers, no npm found"
 fi
