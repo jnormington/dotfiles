@@ -72,3 +72,20 @@ for doc in $PACK_DIR/*/doc; do
     vim -es -u NONE -c "helptags $doc" -c 'qall'
   fi
 done
+
+# Lsp server additional installs
+NPM_SERVERS=(
+  typescript
+  typescript-language-server
+  vscode-langservers-extracted
+  yaml-language-server
+  bash-language-server
+)
+
+if command -v npm > /dev/null;
+then
+  echo "Installing language servers"
+  npm install --global --silent "${NPM_SERVERS[@]}"
+else
+  echo "Skipping language servers, no npm found"
+fi
