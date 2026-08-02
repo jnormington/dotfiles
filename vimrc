@@ -100,20 +100,90 @@ nnoremap <Leader>b :buffers<CR>:buffer<Space>
 map <Leader>z :Zeavim!<CR>
 vmap <Leader>z :ZeavimV<CR>
 
-" ALE settings
-let g:ale_completion_enabled = 1
-let g:ale_completion_autoimport = 1
-let g:ale_sign_column_always = 1
-let g:ale_fix_on_save = 1
-let g:ale_preview_item_open_in = 'tab'
-let g:ale_set_balloons=1
-set omnifunc=ale#completion#OmniFunc
-
-map <Leader>d :ALEGoToDefinition -tab<CR>
-map <Leader>r :ALEFindReferences -tab<CR>
-map <Leader>g :ALEHover<CR>
-
 let g:airline#extensions#ale#enabled = 1
+
+" LSP settings
+" The vscode-eslint server reads its settings with no defaults of its own, so
+" a partial dict just makes it throw on the first missing key. Every field
+" below is load-bearing. It also wants them flat, not under an 'eslint' key -
+" it asks for section "" and the plugin hands back the whole dict.
+function! s:EslintConfig() abort
+  let root = getcwd()
+  " Derived from node's location so a version bump doesn't break this
+  let node_modules = fnamemodify(exepath('node'), ':h:h') . '/lib/node_modules'
+
+  return #{
+        \ validate: 'on',
+        \ run: 'onType',
+        \ quiet: v:false,
+        \ format: v:false,
+        \ useESLintClass: v:true,
+        \ experimental: {},
+        \ nodePath: node_modules,
+        \ onIgnoredFiles: 'off',
+        \ options: {},
+        \ rulesCustomizations: [],
+        \ problems: #{ shortenToSingleLine: v:false },
+        \ workingDirectory: #{ mode: 'auto' },
+        \ workspaceFolder: #{ uri: 'file://' . root, name: fnamemodify(root, ':t') },
+        \ codeAction: #{
+        \   disableRuleComment: #{ enable: v:true, location: 'separateLine' },
+        \   showDocumentation: #{ enable: v:true },
+        \ },
+        \ codeActionOnSave: #{ enable: v:false, mode: 'all' },
+        \ }
+endfunction
+
+" Native packages load after the vimrc, so LspAddServer()/LspOptionsSet()
+" don't exist yet - register on VimEnter once the plugin is loaded.
+function! s:SetupLsp() abort
+  call LspOptionsSet(#{
+        \   autoComplete: v:true,
+        \   autoHighlightDiags: v:true,
+        \   showDiagInPopup: v:true,
+        \   ignoreMissingServer: v:true,
+        \ })
+
+  let servers = [
+        \ #{ name: 'golang',     filetype: ['go', 'gomod'],
+        \    path: 'gopls', args: ['serve'], syncInit: v:true },
+        \ #{ name: 'typescript', filetype: ['javascript', 'typescript', 'typescriptreact'],
+        \    path: 'typescript-language-server', args: ['--stdio'] },
+        \ #{ name: 'eslint',     filetype: ['javascript', 'typescript', 'typescriptreact'],
+        \    path: 'vscode-eslint-language-server', args: ['--stdio'],
+        \    workspaceConfig: s:EslintConfig() },
+        \ #{ name: 'json',       filetype: ['json'],
+        \    path: 'vscode-json-language-server', args: ['--stdio'],
+        \    initializationOptions: #{ provideFormatter: v:true } },
+        \ #{ name: 'yaml',       filetype: ['yaml'],
+        \    path: 'yaml-language-server', args: ['--stdio'] },
+        \ #{ name: 'ruby',       filetype: ['ruby'],
+        \    path: 'ruby-lsp', args: [] },
+        \ #{ name: 'terraform',  filetype: ['terraform'],
+        \    path: 'terraform-ls', args: ['serve'] },
+        \ #{ name: 'bash',       filetype: ['sh'],
+        \    path: 'bash-language-server', args: ['start'] },
+        \ #{ name: 'swift',      filetype: ['swift'],
+        \    path: 'sourcekit-lsp', args: [] },
+        \ ]
+
+  " Only register servers actually installed, resolved to a full path
+  for server in servers
+    if executable(server.path)
+      let server.path = exepath(server.path)
+      call LspAddServer([server])
+    endif
+  endfor
+endfunction
+
+autocmd VimEnter * call s:SetupLsp()
+
+map <Leader>d :vert :LspGotoDefinition<CR>
+map <Leader>r :LspShowReferences<CR>
+map <Leader>g :LspHover<CR>
+map <Leader>n :LspRename<CR>
+map <Leader>a :LspCodeAction<CR>
+map <Leader>s :LspDocumentSymbol<CR>
 
 " Vim-go
 let g:go_gopls_enabled = 0

@@ -11,9 +11,6 @@ PLUGINS=(
   bling/vim-airline
   w0ng/vim-hybrid
 
-  # Async linter/fixer
-  dense-analysis/ale
-
   # LSP client
   yegappan/lsp
 
