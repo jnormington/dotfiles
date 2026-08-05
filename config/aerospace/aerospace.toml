@@ -1,14 +1,9 @@
+config-version = 2
 after-login-command = []
 after-startup-command = [
     # JankyBorders has a built-in detection of already running process,
     # so it won't be run twice on AeroSpace restart
-    'exec-and-forget borders active_color=0xffff4641‰ width=5.0',
-    'exec-and-forget /usr/local/bin/brew services restart sketchybar'
-]
-
-# Notify Sketchybar about workspace change
-exec-on-workspace-change = ['/bin/bash', '-c',
-  '/Users/jon/.config/sketchybar/plugins/aerospace.sh'
+    'exec-and-forget borders active_color=0xffff4641 width=5.0',
 ]
 
 start-at-login = true
@@ -26,12 +21,14 @@ key-mapping.preset = 'qwerty'
 # Mouse follows focus when focused monitor changes
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
+persistent-workspaces = ["1", "2", "3", "4", "5", "6"]
+
 [gaps]
 inner.horizontal = 3
 inner.vertical =   3
 outer.left =       3
 outer.bottom =     3
-outer.top =        33
+outer.top =        3
 outer.right =      3
 
 [mode.main.binding]
