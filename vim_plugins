@@ -85,6 +85,8 @@ NPM_SERVERS=(
   vscode-langservers-extracted
   yaml-language-server
   bash-language-server
+  oxlint
+  oxfmt
 )
 
 if command -v npm > /dev/null;

@@ -100,8 +100,6 @@ nnoremap <Leader>b :buffers<CR>:buffer<Space>
 map <Leader>z :Zeavim!<CR>
 vmap <Leader>z :ZeavimV<CR>
 
-let g:airline#extensions#ale#enabled = 1
-
 " LSP settings
 " The vscode-eslint server reads its settings with no defaults of its own, so
 " a partial dict just makes it throw on the first missing key. Every field
@@ -134,6 +132,13 @@ function! s:EslintConfig() abort
         \ }
 endfunction
 
+" oxfmt is pre-1.0 and its output moves between releases, so prefer the
+" project's copy. Resolved once at VimEnter from the directory Vim started in.
+function! s:OxcBin(name) abort
+  let local = getcwd() . '/node_modules/.bin/' . a:name
+  return executable(local) ? local : a:name
+endfunction
+
 " Native packages load after the vimrc, so LspAddServer()/LspOptionsSet()
 " don't exist yet - register on VimEnter once the plugin is loaded.
 function! s:SetupLsp() abort
@@ -144,27 +149,24 @@ function! s:SetupLsp() abort
         \   ignoreMissingServer: v:true,
         \ })
 
+  let js_ft = ['javascript', 'typescript', 'typescriptreact']
+  let oxc_cfg = #{ oxc_language_server: #{ run: 'onType', unusedDisableDirectives: 'warn', fixKind: 'safe_fix' } }
+  let eslint_rc = ['.eslintrc', '.eslintrc.js', '.eslintrc.cjs', '.eslintrc.json', 'eslint.config.js', 'eslint.config.mjs', 'eslint.config.cjs']
+
+  " oxfmt first - the first server supporting a feature wins it. runIfSearch
+  " keeps it out of Prettier projects, which it would reformat to its defaults.
   let servers = [
-        \ #{ name: 'golang',     filetype: ['go', 'gomod'],
-        \    path: 'gopls', args: ['serve'], syncInit: v:true },
-        \ #{ name: 'typescript', filetype: ['javascript', 'typescript', 'typescriptreact'],
-        \    path: 'typescript-language-server', args: ['--stdio'] },
-        \ #{ name: 'eslint',     filetype: ['javascript', 'typescript', 'typescriptreact'],
-        \    path: 'vscode-eslint-language-server', args: ['--stdio'],
-        \    workspaceConfig: s:EslintConfig() },
-        \ #{ name: 'json',       filetype: ['json'],
-        \    path: 'vscode-json-language-server', args: ['--stdio'],
-        \    initializationOptions: #{ provideFormatter: v:true } },
-        \ #{ name: 'yaml',       filetype: ['yaml'],
-        \    path: 'yaml-language-server', args: ['--stdio'] },
-        \ #{ name: 'ruby',       filetype: ['ruby'],
-        \    path: 'ruby-lsp', args: [] },
-        \ #{ name: 'terraform',  filetype: ['terraform'],
-        \    path: 'terraform-ls', args: ['serve'] },
-        \ #{ name: 'bash',       filetype: ['sh'],
-        \    path: 'bash-language-server', args: ['start'] },
-        \ #{ name: 'swift',      filetype: ['swift'],
-        \    path: 'sourcekit-lsp', args: [] },
+        \ #{ name: 'oxfmt',      filetype: js_ft + ['json', 'yaml', 'css', 'scss', 'markdown'], path: s:OxcBin('oxfmt'), args: ['--lsp'], syncInit: v:true, runIfSearch: ['.oxfmtrc.json'] },
+        \ #{ name: 'oxlint',     filetype: js_ft, path: s:OxcBin('oxlint'), args: ['--lsp'], syncInit: v:true, runIfSearch: ['.oxlintrc.json', '.oxlintrc.jsonc'], workspaceConfig: oxc_cfg },
+        \ #{ name: 'golang',     filetype: ['go', 'gomod'], path: 'gopls', args: ['serve'], syncInit: v:true },
+        \ #{ name: 'typescript', filetype: js_ft, path: 'typescript-language-server', args: ['--stdio'], features: #{ documentFormatting: v:false } },
+        \ #{ name: 'eslint',     filetype: js_ft, path: 'vscode-eslint-language-server', args: ['--stdio'], runIfSearch: eslint_rc, workspaceConfig: s:EslintConfig() },
+        \ #{ name: 'json',       filetype: ['json'], path: 'vscode-json-language-server', args: ['--stdio'], initializationOptions: #{ provideFormatter: v:true } },
+        \ #{ name: 'yaml',       filetype: ['yaml'], path: 'yaml-language-server', args: ['--stdio'] },
+        \ #{ name: 'ruby',       filetype: ['ruby'], path: 'ruby-lsp', args: [] },
+        \ #{ name: 'terraform',  filetype: ['terraform'], path: 'terraform-ls', args: ['serve'] },
+        \ #{ name: 'bash',       filetype: ['sh'], path: 'bash-language-server', args: ['start'] },
+        \ #{ name: 'swift',      filetype: ['swift'], path: 'sourcekit-lsp', args: [] },
         \ ]
 
   " Only register servers actually installed, resolved to a full path
@@ -184,6 +186,17 @@ map <Leader>g :LspHover<CR>
 map <Leader>n :LspRename<CR>
 map <Leader>a :LspCodeAction<CR>
 map <Leader>s :LspDocumentSymbol<CR>
+
+" The plugin has no format-on-save, but :LspFormat is a synchronous rpc() call.
+" tsserver splits imports in two: organize sorts, removeUnusedImports removes.
+augroup LspFormatOnSave
+  autocmd!
+  autocmd BufWritePre *.go,*.ts,*.tsx,*.js,*.jsx
+        \ silent! LspCodeAction only:source.removeUnusedImports#1
+  autocmd BufWritePre *.go,*.ts,*.tsx,*.js,*.jsx silent! LspOrganizeImports
+  autocmd BufWritePre *.go,*.ts,*.tsx,*.js,*.jsx,*.json,*.yml,*.yaml,*.css,*.scss,*.md
+        \ silent! LspFormat
+augroup END
 
 " Vim-go
 let g:go_gopls_enabled = 0
