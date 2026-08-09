@@ -8,6 +8,7 @@ CONFIG_DIR=$HOME/.config
 FONTS_DIR=$HOME/.local/share/fonts
 SSH_DIR=$HOME/.ssh
 FTPLUGIN_DIR=$HOME/.vim/after/ftplugin
+VIM_PLUGIN_DIR=$HOME/.vim/plugin
 USER_SYSTEMD_DIR=$HOME/.config/systemd/user
 UDEV_RULES_DIR=/etc/udev/rules.d
 SCRIPTS_DIR=$HOME/.local/bin
@@ -86,6 +87,9 @@ do
       ;;
     ftplugin)
       mkdirMultiFileSymlink $FTPLUGIN_DIR "ftplugin"
+      ;;
+    plugin)
+      mkdirMultiFileSymlink $VIM_PLUGIN_DIR "plugin"
       ;;
     scripts)
       mkdirMultiFileSymlink $SCRIPTS_DIR "scripts"

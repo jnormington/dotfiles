@@ -15,7 +15,6 @@ HOMEBREW_APPS=(
   vim
   bash
   bash-completion@2
-  FelixKratz/formulae
   nikitabobko/tap/aerospace
 )
 
@@ -69,14 +68,17 @@ defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
 
 # vim/tmux and vim plugins
-mkdir -p ~/.vim/after/ftplugin
+mkdir -p ~/.vim/after/ftplugin ~/.vim/plugin
 
-ln -s ~/.dotfiles/tmux ~/.tmux
+ln -s ~/.dotfiles/tmux ~/.tmux.conf
 ln -s ~/.dotfiles/vimrc ~/.vimrc
 ln -s ~/.dotfiles/ftplugin/* ~/.vim/after/ftplugin
+ln -s ~/.dotfiles/plugin/* ~/.vim/plugin
 
 # Copy as we update the file
 cp ~/.dotfiles/gitconfig ~/.gitconfig
 echo "Updating gitconfig with OSX home path"
 sed 's|/home/jon|/Users/jon|g' ~/.gitconfig > tmpfile
 mv tmpfile ~/.gitconfig
+
+./vim_plugins
