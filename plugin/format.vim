@@ -1,43 +1,28 @@
 vim9script
 
-# Format the current buffer with external tools, on save or on demand.
+# Format the current buffer with Prettier, on save or on demand. Everything
+# else formats over LSP - see the FormatOnSave autocmds in the vimrc.
 #
-# Format-on-save is deliberately synchronous. The write cannot begin until the
-# buffer has been rewritten, so running the tools in the background and waiting
-# on their exit callbacks is a blocking wait with extra steps - and gets the
-# ordering wrong the moment anything is slow. Async is worth it for
-# diagnostics, which can land whenever. It buys nothing here.
+# Synchronous on purpose: the write cannot begin until the buffer has been
+# rewritten, so running it async would be a blocking wait with extra steps.
 #
-# Each filetype maps to a list of steps run in order. '%' in a command is
-# replaced with the path of the file being formatted.
-#
-#   io: 'stdin'  buffer goes in on stdin, formatted text comes back on stdout
-#   io: 'file'   the tool rewrites a file in place, so the buffer is staged to
-#                a temp file *next to the real one* - tsconfig resolution walks
-#                up from the file, so a path in /tmp would not be part of the
-#                project - and read back afterwards
-#
-#   when: only run the step if this filename exists in the current directory
-#         or any parent. Keeps tsconfig-dependent tools quiet in projects that
-#         have no tsconfig.
+# '%' in a command is replaced with the path of the file being formatted.
+# when/unless gate a step on files found above it; .oxfmtrc.json means oxfmt.
 
 const TIMEOUT = 5000
 
-const PRETTIER = {cmd: ['prettier', '--stdin-filepath', '%'], io: 'stdin'}
-const ORGANIZE = {cmd: ['organize-imports-cli', '%'], io: 'file',
-                  when: 'tsconfig.json'}
+const PRETTIER = {
+  cmd: ['prettier', '--stdin-filepath', '%'],
+  when: ['.prettierrc', '.prettierrc.json', '.prettierrc.yml', '.prettierrc.yaml',
+         '.prettierrc.js', '.prettierrc.cjs', '.prettierrc.mjs',
+         'prettier.config.js', 'prettier.config.cjs', 'prettier.config.mjs'],
+  unless: ['.oxfmtrc.json'],
+}
 
 var formatters: dict<list<dict<any>>> = {
-  # goimports is gofmt plus add-missing/remove-unused in one pass, which is
-  # why Go needs no equivalent of the organize step below
-  go:              [{cmd: ['goimports', '-srcdir', '%'], io: 'stdin'}],
-
-  # prettier only ever reprints the AST - it will not remove an unused import,
-  # so organize-imports-cli runs first
-  typescript:      [ORGANIZE, PRETTIER],
-  typescriptreact: [ORGANIZE, PRETTIER],
-  javascript:      [ORGANIZE, PRETTIER],
-
+  typescript:      [PRETTIER],
+  typescriptreact: [PRETTIER],
+  javascript:      [PRETTIER],
   json:            [PRETTIER],
   yaml:            [PRETTIER],
   markdown:        [PRETTIER],
@@ -45,8 +30,29 @@ var formatters: dict<list<dict<any>>> = {
   html:            [PRETTIER],
 }
 
-# Run argv with 'input' on stdin and block until it exits. Returns the exit
-# code alongside whatever came back on stdout and stderr.
+# Searching from the file rather than :pwd keeps the answer right when one Vim
+# session has buffers open from more than one project.
+def AnyFound(names: list<string>): bool
+  const from = $'{expand("%:p:h")};'
+
+  for name in names
+    if !findfile(name, from)->empty()
+      return true
+    endif
+  endfor
+
+  return false
+enddef
+
+# The version that formats the file should be the version CI checks it with.
+def ResolveBin(name: string): string
+  const dir = finddir('node_modules/.bin', $'{expand("%:p:h")};')
+  const local = $'{dir}/{name}'
+
+  return !dir->empty() && executable(local) ? local : name
+enddef
+
+# Run argv with 'input' on stdin and block until it exits.
 def Run(argv: list<string>, input: list<string>): dict<any>
   var out: list<string> = []
   var err: list<string> = []
@@ -90,27 +96,6 @@ def Run(argv: list<string>, input: list<string>): dict<any>
   return {code: code, out: out, err: err}
 enddef
 
-# Stage 'lines' next to the real file, let the tool rewrite it, read it back.
-def RunOnFile(argv: list<string>, lines: list<string>): dict<any>
-  var dir = expand('%:p:h')
-  var ext = expand('%:e')
-  var tmp = $'{dir}/.{expand("%:t:r")}.fmt{ext->empty() ? "" : "." .. ext}'
-
-  writefile(lines, tmp)
-
-  var result: dict<any>
-  try
-    result = Run(argv->copy()->map((_, v) => v == '%' ? tmp : v), [])
-    if result.code == 0
-      result.out = readfile(tmp)
-    endif
-  finally
-    delete(tmp)
-  endtry
-
-  return result
-enddef
-
 def g:FormatBuffer(): void
   if !formatters->has_key(&filetype)
     return
@@ -120,21 +105,25 @@ def g:FormatBuffer(): void
   var text = getline(1, '$')
 
   for step in formatters[&filetype]
-    if step->has_key('when') && findfile(step.when, '.;')->empty()
+    if step->has_key('when') && !AnyFound(step.when)
       continue
     endif
 
-    var argv = step.cmd->copy()
+    if step->has_key('unless') && AnyFound(step.unless)
+      continue
+    endif
+
+    var argv = step.cmd->copy()->map((_, v) => v == '%' ? path : v)
+    argv[0] = ResolveBin(argv[0])
+
     if !executable(argv[0])
       continue
     endif
 
-    var result = step.io == 'file'
-          ? RunOnFile(argv, text)
-          : Run(argv->map((_, v) => v == '%' ? path : v), text)
+    var result = Run(argv, text)
 
     if result.code != 0
-      # Nearly always a syntax error. Leave the buffer untouched rather than
+      # Nearly always a syntax error - leave the buffer untouched rather than
       # writing mangled output, and say why.
       var reason = result.err->empty() ? $'exit {result.code}' : result.err[0]
       echohl WarningMsg
@@ -150,8 +139,7 @@ def g:FormatBuffer(): void
     return
   endif
 
-  # Overwrite in place rather than deleting first, so marks and the undo
-  # tree survive better
+  # Overwrite in place so marks and the undo tree survive better
   var view = winsaveview()
   setline(1, text)
   if line('$') > len(text)
